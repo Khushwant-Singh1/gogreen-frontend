@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-primary: #348E38;
+  --color-secondary: #525368;
+  --color-light: #E8F5E9;
+  --color-dark: #0F4229;
+  --color-whitesmoke: #f5f5f5;
+  
+  --font-sans: var(--font-open-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-jost), sans-serif;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  @keyframes dropFall {
+    0% { transform: translateY(-100px) scaleY(1); opacity: 0; }
+    20% { opacity: 1; }
+    60% { transform: translateY(80px) scaleY(1.2); }
+    70% { transform: translateY(110px) scaleY(0.8); }
+    80% { transform: translateY(100px) scaleY(1); }
+    100% { transform: translateY(-100px) scaleY(1); opacity: 0; }
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @keyframes splashExpand {
+    0%, 60% { width: 0; height: 0; opacity: 0; }
+    70% { width: 30px; height: 8px; opacity: 0.8; }
+    90% { width: 50px; height: 10px; opacity: 0.4; }
+    100% { width: 0; height: 0; opacity: 0; }
+  }
+
+  @keyframes countryGlow {
+    0% { filter: drop-shadow(0 0 20px rgba(76,175,80,0.4)); }
+    50% { filter: drop-shadow(0 0 30px rgba(76,175,80,0.6)); }
+    100% { filter: drop-shadow(0 0 20px rgba(76,175,80,0.4)); }
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1.4); opacity: 0.3; }
+    100% { transform: scale(0.8); opacity: 0.6; }
   }
 }
 
+/* --- Global Reponsive Base --- */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+  background: #ffffff;
+  color: #525368; /* $body-color: $secondary */
+  font-family: var(--font-open-sans), sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-jost), sans-serif;
+  color: #0F4229; /* $headings-color: $dark */
+  font-weight: 700; /* $headings-font-weight: 700 */
+}
+
+/* --- Search Suggestions Dropdown --- */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+    border-radius: 0 0 1.5rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border: 1px solid #e0e0e0;
+}
+
+/* --- Water Droplet Animation --- */
+.droplet {
+  animation: dropFall 2s infinite ease-in;
+  background: linear-gradient(180deg, #a8e6cf 0%, #1e5f84 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+.splash {
+  animation: splashExpand 2s infinite ease-out;
+}
+
+/* --- Buttons with Ripple and Gradients --- */
+.btn-primary-custom {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.4);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary-custom:hover {
+  background: linear-gradient(135deg, #27ae60, #1e8449);
+  box-shadow: 0 6px 18px rgba(39, 174, 96, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-ripple::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 75%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 1s ease;
+  z-index: 0;
+}
+
+.btn-ripple:hover::before {
+  width: 300%;
+  height: 300%;
+  opacity: 0;
+}
+
+/* --- Product Cards --- */
+.product-card {
+    border: 2px solid rgba(0, 128, 0, 0.3);
+    border-radius: 20px;
+    background: #ffffff;
+    transition: all 0.4s ease-in-out;
+    box-shadow: 0px 3px 10px rgba(0,0,0,0.08);
+}
+
+.product-card:hover {
+    border-color: #2ecc71;
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 25px rgba(46, 204, 113, 0.45);
+    background: linear-gradient(145deg, #f7fff7, #e8ffe8);
+}
+
+/* --- Watermark --- */
+.watermark::after {
+    content: "";
+    background: url("/img/vidhi_logo-removebg-preview.png") center center no-repeat;
+    background-size: 500px;
+    opacity: 0.05;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- Map styles --- */
+.allPaths {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.allPaths:hover {
+  fill: #348E38 !important;
+  stroke-width: 1px !important;
+  cursor: pointer;
+  animation: countryGlow 2s infinite;
+}
+
+/* --- Carousel --- */
+.carousel-caption-custom {
+    background: rgba(15, 66, 41, .6);
+}
+
+/* --- Custom List --- */
+.custom-list li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #3b5d50;
+  position: absolute;
+  left: 0;
+  top: 8px;
 }
