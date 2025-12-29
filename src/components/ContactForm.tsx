@@ -9,10 +9,32 @@ const ContactForm = () => {
     e.preventDefault();
     setStatus("sending");
     
-    // Simulate API call
-    setTimeout(() => {
-      setStatus("success");
-    }, 2000);
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      if (res.ok) {
+        setStatus("success");
+        (e.target as HTMLFormElement).reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -31,6 +53,7 @@ const ContactForm = () => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
                 <input 
                   type="text" 
+                  name="firstName"
                   required
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="First Name"
@@ -40,6 +63,7 @@ const ContactForm = () => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
                 <input 
                   type="text" 
+                  name="lastName"
                   required
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="Last Name"
@@ -49,6 +73,7 @@ const ContactForm = () => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Mobile No.</label>
                 <input 
                   type="text" 
+                  name="phone"
                   required
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="Mobile"
@@ -58,6 +83,7 @@ const ContactForm = () => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Email</label>
                 <input 
                   type="email" 
+                  name="email"
                   required
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="Email"
@@ -66,6 +92,7 @@ const ContactForm = () => {
               <div className="md:col-span-2">
                 <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
                 <textarea 
+                  name="message"
                   required
                   rows={4}
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
@@ -84,6 +111,11 @@ const ContactForm = () => {
                 {status === "success" && (
                   <div className="mt-4 text-green-600 font-bold animate-fadeIn">
                     Thank you! Your message was sent.
+                  </div>
+                )}
+                {status === "error" && (
+                  <div className="mt-4 text-red-600 font-bold animate-fadeIn">
+                    Oops! Something went wrong. Please try again.
                   </div>
                 )}
               </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ interface LocationData {
   lng?: number;
 }
 
-export default function Location() {
+function LocationContent() {
   const searchParams = useSearchParams();
   const [locationData, setLocationData] = useState<LocationData | null>(null);
   const [showMap, setShowMap] = useState(false);
@@ -78,44 +78,36 @@ export default function Location() {
   }, [showMap, locationData]);
 
   return (
-    <>
-      <style jsx>{`
-        body {
-          padding: 24px;
-          background: #f8f9fa;
-        }
-        .card {
-          max-width: 900px;
-          margin: 24px auto;
-        }
-        #miniMap {
-          height: 300px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-        }
-      `}</style>
-
-      <div className="card">
-        <div className="card-body">
-          <h3 id="placeTitle">
-            {locationData?.title || 'Loading...'}
-          </h3>
-          <p id="placeSummary">
-            {locationData?.summary || 'Loading...'}
-          </p>
-          <div id="extra">
-            {showMap && locationData?.lat && locationData?.lng && (
-              <div>
-                <p><strong>Map preview:</strong></p>
-                <div id="miniMap"></div>
-              </div>
-            )}
-          </div>
-          <Link href="/" className="btn btn-secondary mt-3">
-            Back to Home
-          </Link>
+    <div className="card max-w-[900px] mx-auto my-6 bg-white shadow-md p-6 rounded-lg">
+      <div className="card-body">
+        <h3 id="placeTitle" className="text-2xl font-bold mb-4">
+          {locationData?.title || 'Loading...'}
+        </h3>
+        <p id="placeSummary" className="text-gray-600 mb-6">
+          {locationData?.summary || 'Loading...'}
+        </p>
+        <div id="extra">
+          {showMap && locationData?.lat && locationData?.lng && (
+            <div>
+              <p><strong>Map preview:</strong></p>
+              <div id="miniMap" className="h-[300px] border border-gray-300 rounded mt-2"></div>
+            </div>
+          )}
         </div>
+        <Link href="/" className="inline-block bg-gray-600 text-white px-6 py-2 rounded mt-6 hover:bg-gray-700 transition">
+          Back to Home
+        </Link>
       </div>
-    </>
+    </div>
+  );
+}
+
+export default function Location() {
+  return (
+    <main className="min-h-screen bg-gray-50 p-6">
+      <Suspense fallback={<div className="text-center py-20 font-bold">Loading Location...</div>}>
+        <LocationContent />
+      </Suspense>
+    </main>
   );
 }

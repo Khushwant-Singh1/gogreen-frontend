@@ -1,33 +1,26 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import TeamSection from "@/components/TeamSection";
-import type { Metadata } from "next";
+import Footer from "@/components/Footer";
 
-export const metadata: Metadata = {
-  title: "Our Team | Vidhi Enterprises",
-  description: "Meet our dedicated and experienced team members at Vidhi Enterprises.",
-};
-
-export default function TeamPage() {
+const TeamPage = () => {
   return (
-    <main className="bg-white">
+    <main className="min-h-screen bg-whitesmoke">
       <Navbar />
-      
       <PageHeader 
         title="Our Team" 
-        backgroundImage="/img/carousel-1.jpg"
+        backgroundImage="/img/12.png"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Pages", href: "#" },
           { label: "Our Team", active: true }
         ]}
       />
-
       <TeamSection />
-
       <Footer />
     </main>
   );
-}
+};
+
+export default TeamPage;

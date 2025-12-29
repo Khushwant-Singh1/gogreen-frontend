@@ -19,10 +19,11 @@ const Footer = () => {
               Engineering Smart Irrigation Solutions for a Greener Tomorrow. Trusted manufacturer of Drip, Sprinkler & Micro Irrigation Products.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-facebook-f"></i></a>
+              <a href="https://www.facebook.com/p/Vidhi-Enterprises-61560940581059/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-facebook-f"></i></a>
               <a href="#" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-twitter"></i></a>
-              <a href="#" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-linkedin-in"></i></a>
+              <a href="https://www.instagram.com/vidhi_enter_delhi/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-instagram"></i></a>
+              <a href="https://www.linkedin.com/company/vidhi_enterprises/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-linkedin-in"></i></a>
+              <a href="https://www.youtube.com/@VidhiEnterprisesNewDelhi" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-primary transition"><i className="fab fa-youtube"></i></a>
             </div>
           </div>
 
@@ -30,7 +31,7 @@ const Footer = () => {
             <h4 className="text-xl font-bold mb-8 relative after:content-[''] after:absolute after:left-0 after:-bottom-2 after:w-12 after:h-1 after:bg-primary">Quick Links</h4>
             <ul className="space-y-4 text-gray-400">
               <li><Link href="/" className="hover:text-white transition">Home</Link></li>
-              <li><Link href="/company-profile" className="hover:text-white transition">About Us</Link></li>
+              <li><Link href="/company-profile" className="hover:text-white transition">Company Profile</Link></li>
               <li><Link href="/products" className="hover:text-white transition">Our Products</Link></li>
               <li><Link href="/blog" className="hover:text-white transition">Blog</Link></li>
               <li><Link href="/contact" className="hover:text-white transition">Contact Us</Link></li>
@@ -53,15 +54,15 @@ const Footer = () => {
             <ul className="space-y-4 text-gray-400">
               <li className="flex items-start">
                 <i className="fa fa-map-marker-alt mt-1 mr-4 text-primary"></i>
-                <span>123 Irrigation Way, Agri Tech Park, Industrial Area, India</span>
+                <span>Factory Address: 485-A/7A. Ahinsa Compound, Dilshad Garden Industrial Area, G.T. Road, Shahadra, Delhi – 110095, India</span>
               </li>
               <li className="flex items-center">
                 <i className="fa fa-phone-alt mr-4 text-primary"></i>
-                <span>+91 98765 43210</span>
+                <span>+91-8376007474</span>
               </li>
               <li className="flex items-center">
                 <i className="fa fa-envelope mr-4 text-primary"></i>
-                <span>info@vidhienterprises.com</span>
+                <span>buyfromvidhi@gmail.com</span>
               </li>
             </ul>
           </div>

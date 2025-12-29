@@ -5,123 +5,99 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Navbar = () => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* LEFT LOGO */}
+    <nav className="sticky top-0 z-50 main-navbar py-2">
+      <div className="container-fluid px-0">
+        <div className="flex flex-wrap lg:flex-nowrap items-center justify-between px-4 lg:px-10">
+          
+          {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
               src="/img/vidhi_logo-removebg-preview.png"
-              width={200}
-              height={64}
-              className="h-12 lg:h-16 w-auto"
+              width={120}
+              height={100}
+              className="logo-img"
               alt="Vidhi Enterprises Logo"
               priority
             />
           </Link>
 
-          {/* DESKTOP SEARCH */}
-          <div className="hidden lg:flex flex-1 max-w-md mx-8">
-            <div className="relative w-full">
-              <input
-                type="search"
-                className="w-full pl-6 pr-12 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50"
-                placeholder="Search products..."
+          {/* Search Bar (Desktop & Tablet) */}
+          <div className="hidden sm:flex flex-grow max-w-[400px] mx-4">
+            <div className="input-group input-group-lg shadow-sm search-bar-rounded w-full relative flex items-center bg-[#f8f9fa] rounded-full overflow-hidden">
+              <input 
+                type="search" 
+                className="form-control border-none bg-transparent py-3 pl-6 pr-12 focus:ring-0 w-full text-lg outline-none" 
+                placeholder="Search" 
               />
-              <button className="absolute right-0 top-0 h-full px-4 text-white bg-primary rounded-r-full">
+              <button className="absolute right-0 top-0 w-12 h-12 flex items-center justify-center bg-primary text-white hover:bg-dark transition-colors rounded-full m-0.5">
                 <i className="fa fa-search"></i>
               </button>
             </div>
           </div>
 
-          {/* RIGHT ICONS (MOBILE) */}
-          <div className="flex items-center lg:hidden">
-            <button
-              className="p-2 mr-2 text-gray-600 focus:outline-none"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              <i className="fa fa-search text-xl"></i>
-            </button>
-            <button
-              className="p-2 text-gray-600 focus:outline-none"
-              onClick={() => setIsNavOpen(!isNavOpen)}
-            >
-              <i className={`fa ${isNavOpen ? 'fa-times' : 'fa-bars'} text-2xl`}></i>
-            </button>
-          </div>
+          {/* Mobile Toggler */}
+          <button 
+            className="lg:hidden p-2 text-dark focus:outline-none"
+            onClick={() => setIsNavOpen(!isNavOpen)}
+          >
+            <span className="fa fa-bars text-2xl"></span>
+          </button>
 
-          {/* NAV LINKS */}
-          <div className={`lg:flex lg:items-center ${isNavOpen ? 'block' : 'hidden'} absolute lg:relative top-20 lg:top-0 left-0 w-full lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none p-4 lg:p-0`}>
-            <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-6">
-              <Link href="/" className="text-gray-800 font-bold hover:text-primary transition">Home</Link>
+          {/* Navigation Links */}
+          <div className={`${isNavOpen ? 'block' : 'hidden'} lg:flex w-full lg:w-auto items-center mt-4 lg:mt-0`}>
+            <div className="navbar-nav flex flex-col lg:flex-row items-center lg:space-x-4 w-full">
+              <Link href="/" className="nav-link"><b>Home</b></Link>
               
-              <div className="relative group">
-                <button className="flex items-center font-bold text-gray-800 hover:text-primary transition">
-                  Products <i className="fa fa-chevron-down ml-1 text-xs"></i>
+              <div className="nav-item dropdown group relative">
+                <button className="nav-link flex items-center">
+                  <b>Products</b> <i className="fa fa-chevron-down ml-2 text-[10px]"></i>
                 </button>
-                <div className="lg:absolute left-0 mt-2 w-48 bg-white border rounded shadow-xl hidden group-hover:block">
-                  <Link href="/dripirri" className="block px-4 py-2 hover:bg-gray-100">Drip Irrigation</Link>
-                  <Link href="/sprinkler" className="block px-4 py-2 hover:bg-gray-100">Sprinkler Irrigation</Link>
-                  <Link href="/rainsprinkler" className="block px-4 py-2 hover:bg-gray-100">Rain Sprinkler</Link>
-                  <Link href="/landscape" className="block px-4 py-2 hover:bg-gray-100">Landscape Irrigation</Link>
-                  <Link href="/economical" className="block px-4 py-2 hover:bg-gray-100">Economical Irrigation</Link>
-                  <Link href="/vidhi-kit" className="block px-4 py-2 hover:bg-gray-100">Vidhi Kit</Link>
+                <div className="lg:absolute left-0 mt-0 w-48 bg-light border-none rounded shadow-xl hidden group-hover:block z-50">
+                  <Link href="/dripirri" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Drip Irrigation</b></Link>
+                  <Link href="/sprinkler" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Sprinkler Irrigation</b></Link>
+                  <Link href="/rainsprinkler" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Rain Sprinkler</b></Link>
+                  <Link href="/landscape" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Landscape Irrigation</b></Link>
+                  <Link href="/economical" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Economical Irrigation</b></Link>
+                  <Link href="/vidhi-kit" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Vidhi Kit</b></Link>
                 </div>
               </div>
 
-              <div className="relative group">
-                <button className="flex items-center font-bold text-gray-800 hover:text-primary transition">
-                  About Us <i className="fa fa-chevron-down ml-1 text-xs"></i>
+              <div className="nav-item dropdown group relative">
+                <button className="nav-link flex items-center">
+                  <b>About Us</b> <i className="fa fa-chevron-down ml-2 text-[10px]"></i>
                 </button>
-                <div className="lg:absolute left-0 mt-2 w-56 bg-white border rounded shadow-xl hidden group-hover:block max-h-[70vh] overflow-y-auto">
-                  <Link href="/company-profile" className="block px-4 py-2 hover:bg-gray-100">Company Profile</Link>
-                  <Link href="/founder-vision" className="block px-4 py-2 hover:bg-gray-100">Founder&apos;s Vision</Link>
-                  <Link href="/our-journey" className="block px-4 py-2 hover:bg-gray-100">Our Journey</Link>
-                  <Link href="/legacy-leader" className="block px-4 py-2 hover:bg-gray-100">Legacy & Leadership</Link>
-                  <Link href="/manfacture" className="block px-4 py-2 hover:bg-gray-100">Manufacturing & Infra</Link>
-                  <Link href="/quality-policy" className="block px-4 py-2 hover:bg-gray-100">Quality Policy</Link>
-                  <Link href="/sustainable" className="block px-4 py-2 hover:bg-gray-100">Sustainability</Link>
-                  <Link href="/global-presence" className="block px-4 py-2 hover:bg-gray-100">Global Presence</Link>
-                  <Link href="/blog" className="block px-4 py-2 hover:bg-gray-100">Blog</Link>
-                  <Link href="/careers" className="block px-4 py-2 hover:bg-gray-100">Careers</Link>
+                <div className="lg:absolute left-0 mt-0 w-56 bg-light border-none rounded shadow-xl hidden group-hover:block z-50">
+                  <Link href="/company-profile" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Company Profile</b></Link>
+                  <Link href="/founder-vision" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Founder's Vision</b></Link>
+                  <Link href="/our-journey" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Our Journey</b></Link>
+                  <Link href="/legacy-leader" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Legacy & Leadership</b></Link>
+                  <Link href="/manfacture" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Manufacturing & Infra</b></Link>
+                  <Link href="/quality-policy" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Quality Policy</b></Link>
+                  <Link href="/sustainable" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Sustainability</b></Link>
+                  <Link href="/global-presence" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Global Presence</b></Link>
+                  <Link href="/blog" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Blog</b></Link>
+                  <Link href="/careers" className="dropdown-item block px-4 py-2 hover:bg-white transition-colors"><b>Careers</b></Link>
                 </div>
               </div>
 
-              <Link href="/contact" className="text-gray-800 font-bold hover:text-primary transition">Contact Us</Link>
+              <Link href="/contact" className="nav-link"><b>Contact Us</b></Link>
 
-              {/* RIGHT LOGO (DESKTOP ONLY) */}
-              <Link href="/" className="hidden lg:block ml-4">
+              {/* Right Logo (Colored) */}
+              <Link href="/" className="hidden lg:flex items-center ml-4">
                 <Image
                   src="/img/logo-olored.png"
-                  width={200}
-                  height={64}
-                  className="h-12 w-auto"
+                  width={80}
+                  height={60}
+                  className="h-14 w-auto"
                   alt="Vidhi Enterprises Logo Right"
                 />
               </Link>
             </div>
           </div>
         </div>
-
-        {/* MOBILE SEARCH BAR */}
-        {isSearchOpen && (
-          <div className="lg:hidden py-4 animate-fadeIn">
-            <div className="flex relative">
-              <input
-                type="search"
-                className="w-full pl-6 pr-12 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50"
-                placeholder="Search products..."
-              />
-              <button className="absolute right-0 top-0 h-full px-4 text-white bg-primary rounded-r-full">
-                <i className="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );

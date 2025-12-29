@@ -1,25 +1,25 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
-import GlobalPresenceMap from "@/components/GlobalPresenceMap";
+import ProductGrid from "@/components/ProductGrid";
 import Footer from "@/components/Footer";
 
-const GlobalPresencePage = () => {
+const ProductsPage = () => {
   return (
     <main className="min-h-screen bg-whitesmoke">
       <Navbar />
       <PageHeader 
-        title="Global Presence" 
-        backgroundImage="/img/12.png"
+        title="Our Products" 
+        backgroundImage="/img/Drip-header.png" 
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "Global Presence", active: true }
+          { label: "Products", active: true }
         ]}
       />
-      <GlobalPresenceMap />
+      <ProductGrid />
       <Footer />
     </main>
   );
 };
 
-export default GlobalPresencePage;
+export default ProductsPage;

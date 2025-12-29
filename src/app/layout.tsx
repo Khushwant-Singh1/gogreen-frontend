@@ -15,8 +15,9 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Vidhi Enterprises | Smart Irrigation Solutions",
-  description: "Engineering Smart Irrigation Solutions for a Greener Tomorrow",
+  title: "Vidhi Enterprises | Precision Irrigation Solutions Since 1983",
+  description: "Trusted manufacturer of Drip, Sprinkler & Micro Irrigation Products. Engineering Smart Irrigation Solutions for a Greener Tomorrow.",
+  keywords: ["irrigation", "drip irrigation", "sprinkler", "agriculture", "Vidhi Enterprises"],
 };
 
 export default function RootLayout({

@@ -1,30 +1,26 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
-import AboutSection from "@/components/AboutSection";
-import StatsSection from "@/components/StatsSection";
-import TeamSection from "@/components/TeamSection";
+import TestimonialSection from "@/components/TestimonialSection";
 import Footer from "@/components/Footer";
 
-const AboutPage = () => {
+const TestimonialPage = () => {
   return (
     <main className="min-h-screen bg-whitesmoke">
       <Navbar />
       <PageHeader 
-        title="About Us" 
+        title="Testimonials" 
         backgroundImage="/img/12.png"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Pages", href: "#" },
-          { label: "About", active: true }
+          { label: "Testimonial", active: true }
         ]}
       />
-      <AboutSection />
-      <StatsSection />
-      <TeamSection />
+      <TestimonialSection />
       <Footer />
     </main>
   );
 };
 
-export default AboutPage;
+export default TestimonialPage;

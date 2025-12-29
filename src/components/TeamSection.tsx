@@ -3,19 +3,19 @@ import Image from "next/image";
 
 const teamMembers = [
   {
-    name: "Doris Jordan",
-    role: "Landscape Designer",
-    img: "/img/team-1.jpg",
+    name: "Late Shri D.K. Jain",
+    role: "Founder - The Visionary",
+    img: "/img/dada-ji.png",
   },
   {
-    name: "Johnny Ramirez",
-    role: "Garden Designer",
-    img: "/img/team-2.jpg",
+    name: "Mr. Vineet Jain",
+    role: "Proprietor - Expansion Leader",
+    img: "/img/vineet-jain.png",
   },
   {
-    name: "Diana Wagner",
-    role: "Senior Gardener",
-    img: "/img/team-3.jpg",
+    name: "Mr. Vibhor Jain",
+    role: "International Business & Innovation",
+    img: "/img/vibhor-jain.png",
   },
 ];
 
@@ -27,40 +27,34 @@ const TeamSection = () => {
           <p className="text-primary font-bold text-xl uppercase tracking-wider mb-2">Our Team</p>
           <div className="w-24 h-1 bg-secondary mx-auto mb-6"></div>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-            Dedicated & Experienced Team Members
+            Our Leadership
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member, i) => (
-            <div key={i} className="team-item group relative overflow-hidden rounded-xl shadow-lg">
-              <div className="relative h-96 w-full">
+            <div key={i} className="team-item group relative overflow-hidden rounded-xl shadow-lg border border-gray-100">
+              <div className="relative h-[450px] w-full bg-gray-50">
                 <Image
                   src={member.img}
                   alt={member.name}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 
                 {/* Social Overlay */}
-                <div className="absolute inset-0 bg-primary/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
+                <div className="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10">
                   <div className="flex space-x-3">
-                    <a href="#" className="w-10 h-10 bg-white text-primary rounded-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-300">
-                      <i className="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-white text-primary rounded-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-300">
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-white text-primary rounded-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-300">
-                      <i className="fab fa-instagram"></i>
+                    <a href="https://www.linkedin.com/company/vidhi_enterprises/" target="_blank" className="w-12 h-12 bg-white text-primary rounded-full flex items-center justify-center hover:bg-secondary hover:text-white transition-all shadow-lg">
+                      <i className="fab fa-linkedin-in text-xl"></i>
                     </a>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute bottom-8 left-0 bg-white w-[calc(100%-40px)] py-4 px-6 rounded-r-lg shadow-md transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 z-20">
-                <h4 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h4>
-                <p className="text-primary font-medium">{member.role}</p>
+              <div className="p-8 text-center bg-white border-t-4 border-primary relative z-20">
+                <h4 className="text-2xl font-bold text-gray-900 mb-2">{member.name}</h4>
+                <p className="text-primary font-bold text-lg">{member.role}</p>
               </div>
             </div>
           ))}

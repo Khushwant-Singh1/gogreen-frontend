@@ -49,36 +49,40 @@ const products = [
 
 const ProductGrid = () => {
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4 text-center">
-        <div className="max-w-2xl mx-auto mb-16">
-          <p className="text-primary font-bold uppercase tracking-wider mb-2">Our Products</p>
-          <div className="w-24 h-1 bg-secondary mx-auto mb-6"></div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900">Products That We Offer For You</h2>
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mx-auto mb-16 max-w-lg animate-fadeInUp">
+          <p className="fs-5 fw-bold text-primary mb-2">Our Products</p>
+          <hr className="border-2 border-[#006400] mb-6" />
+          <h1 className="display-5 mb-5">Products That We Offer For You</h1>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="row g-4">
           {products.map((p, i) => (
-            <div key={i} className="product-card group relative overflow-hidden flex flex-col h-full p-2">
-              <div className="relative h-64 overflow-hidden rounded-xl">
-                <Image 
-                  src={p.img} 
-                  alt={p.title} 
-                  fill
-                  className="object-cover group-hover:scale-110 transition duration-500"
-                />
-                <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition duration-500"></div>
-              </div>
-              
-              <div className="p-8 flex flex-col flex-1 items-center">
-                <div className="w-20 h-20 bg-white shadow-lg rounded-full p-4 -mt-16 relative z-10 mb-6 flex items-center justify-center">
-                  <Image src={p.icon} alt="icon" width={80} height={80} className="w-full h-full object-contain" />
+            <div key={i} className="col-lg-4 col-md-6 animate-fadeInUp" style={{ animationDelay: `${i * 0.1}s` }}>
+              <div className="service-item rounded d-flex flex-column h-100">
+                <div className="service-img rounded relative flex-grow overflow-hidden min-h-[300px]">
+                  <Image 
+                    src={p.img} 
+                    alt={p.title} 
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <h4 className="text-2xl font-bold text-gray-900 mb-4">{p.title}</h4>
-                <p className="text-gray-600 mb-8 flex-1"><b>{p.desc}</b></p>
-                <Link href={p.link} className="inline-flex items-center text-primary font-bold hover:text-secondary transition">
-                  <i className="fa fa-plus mr-2"></i> Read More
-                </Link>
+                <div className="service-text rounded p-10 flex flex-col items-center flex-grow">
+                  <div className="btn-square rounded-full mx-auto mb-6 flex items-center justify-center p-4">
+                    <Link href={p.link}>
+                      <Image src={p.icon} alt="Icon" width={60} height={60} className="w-full h-full object-contain" />
+                    </Link>
+                  </div>
+                  <h4 className="text-2xl font-bold mb-4 group-hover:text-white transition-colors">{p.title}</h4>
+                  <p className="mb-8 font-bold leading-relaxed text-gray-600 group-hover:text-white transition-colors">
+                    {p.desc}
+                  </p>
+                  <Link href={p.link} className="btn btn-sm inline-flex items-center text-primary font-bold hover:text-white transition-all">
+                    <i className="fa fa-plus me-2"></i>Read More
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

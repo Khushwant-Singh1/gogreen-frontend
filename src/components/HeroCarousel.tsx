@@ -48,7 +48,7 @@ const HeroCarousel = () => {
   const prevSlide = () => setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
 
   return (
-    <div className="relative w-full h-[400px] lg:h-[600px] overflow-hidden group">
+    <div className="relative w-full h-[500px] overflow-hidden group">
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -56,18 +56,22 @@ const HeroCarousel = () => {
             index === current ? "opacity-100" : "opacity-0"
           }`}
         >
-          <Image
-            src={slide.image}
-            alt={`Slide ${index}`}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
-          <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-center p-4">
-            <div className="max-w-4xl animate-slideDown">
-              <h2 className="text-2xl lg:text-5xl font-bold text-white leading-tight drop-shadow-lg">
-                {slide.text}
-              </h2>
+          <div className="relative w-full h-full">
+            <Image
+              src={slide.image}
+              alt={`Slide ${index}`}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          </div>
+          <div className="carousel-caption">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto animate-slideDown">
+                <h3 className="text-xl lg:text-5xl font-bold text-white mb-5 leading-tight drop-shadow-lg">
+                  {slide.text}
+                </h3>
+              </div>
             </div>
           </div>
         </div>
@@ -76,19 +80,21 @@ const HeroCarousel = () => {
       {/* Controls */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition"
+        className="carousel-control-prev"
       >
-        <i className="fa fa-chevron-left"></i>
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Previous</span>
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition"
+        className="carousel-control-next"
       >
-        <i className="fa fa-chevron-right"></i>
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Next</span>
       </button>
 
       {/* Indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
