@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types/auth';
@@ -37,6 +38,7 @@ interface IProduct {
 }
 
 export default function ProductsAdmin() {
+  const router = useRouter();
   const { user, hasRole } = useAuth();
   const isAdmin = user?.role === UserRole.ADMIN;
 
@@ -440,6 +442,12 @@ export default function ProductsAdmin() {
                       className="text-blue-600 hover:text-blue-900"
                     >
                       Edit
+                    </button>
+                    <button
+                      onClick={() => router.push(`/admin/products/${product.id}/specifications`)}
+                      className="text-purple-600 hover:text-purple-900"
+                    >
+                      Specs
                     </button>
                     {isAdmin && (
                       <button

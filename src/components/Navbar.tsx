@@ -77,12 +77,12 @@ const Navbar = () => {
                     ))
                   ) : (
                     <>
-                      <Link href="/dripirri" className="dropdown-item"><b>Drip Irrigation</b></Link>
-                      <Link href="/sprinkler" className="dropdown-item"><b>Sprinkler Irrigation</b></Link>
-                      <Link href="/rainsprinkler" className="dropdown-item"><b>Rain Sprinkler</b></Link>
-                      <Link href="/landscape" className="dropdown-item"><b>Landscape Irrigation</b></Link>
-                      <Link href="/economical" className="dropdown-item"><b>Economical Irrigation</b></Link>
-                      <Link href="/vidhi-kit" className="dropdown-item"><b>Vidhi Kit</b></Link>
+                      <Link key="dripirri" href="/dripirri" className="dropdown-item"><b>Drip Irrigation</b></Link>
+                      <Link key="sprinkler" href="/sprinkler" className="dropdown-item"><b>Sprinkler Irrigation</b></Link>
+                      <Link key="rainsprinkler" href="/rainsprinkler" className="dropdown-item"><b>Rain Sprinkler</b></Link>
+                      <Link key="landscape" href="/landscape" className="dropdown-item"><b>Landscape Irrigation</b></Link>
+                      <Link key="economical" href="/economical" className="dropdown-item"><b>Economical Irrigation</b></Link>
+                      <Link key="vidhi-kit" href="/vidhi-kit" className="dropdown-item"><b>Vidhi Kit</b></Link>
                     </>
                   )}
                 </div>
@@ -93,16 +93,16 @@ const Navbar = () => {
                   <b>About Us</b> <i className="fa fa-chevron-down ml-2 text-[10px]"></i>
                 </button>
                 <div className="lg:absolute left-0 mt-0 w-56 bg-light border-none rounded shadow-xl hidden group-hover:block z-50">
-                  <Link href="/company-profile" className="dropdown-item"><b>Company Profile</b></Link>
-                  <Link href="/founder-vision" className="dropdown-item"><b>Founder's Vision</b></Link>
-                  <Link href="/our-journey" className="dropdown-item"><b>Our Journey</b></Link>
-                  <Link href="/legacy-leader" className="dropdown-item"><b>Legacy & Leadership</b></Link>
-                  <Link href="/manfacture" className="dropdown-item"><b>Manufacturing & Infra</b></Link>
-                  <Link href="/quality-policy" className="dropdown-item"><b>Quality Policy</b></Link>
-                  <Link href="/sustainable" className="dropdown-item"><b>Sustainability</b></Link>
-                  <Link href="/global-presence" className="dropdown-item"><b>Global Presence</b></Link>
-                  <Link href="/blog" className="dropdown-item"><b>Blog</b></Link>
-                  <Link href="/careers" className="dropdown-item"><b>Careers</b></Link>
+                  <Link key="company-profile" href="/company-profile" className="dropdown-item"><b>Company Profile</b></Link>
+                  <Link key="founder-vision" href="/founder-vision" className="dropdown-item"><b>Founder's Vision</b></Link>
+                  <Link key="our-journey" href="/our-journey" className="dropdown-item"><b>Our Journey</b></Link>
+                  <Link key="legacy-leader" href="/legacy-leader" className="dropdown-item"><b>Legacy & Leadership</b></Link>
+                  <Link key="manufacture" href="/manfacture" className="dropdown-item"><b>Manufacturing & Infra</b></Link>
+                  <Link key="quality-policy" href="/quality-policy" className="dropdown-item"><b>Quality Policy</b></Link>
+                  <Link key="sustainable" href="/sustainable" className="dropdown-item"><b>Sustainability</b></Link>
+                  <Link key="global-presence" href="/global-presence" className="dropdown-item"><b>Global Presence</b></Link>
+                  <Link key="blog" href="/blog" className="dropdown-item"><b>Blog</b></Link>
+                  <Link key="careers" href="/careers" className="dropdown-item"><b>Careers</b></Link>
                 </div>
               </div>
 

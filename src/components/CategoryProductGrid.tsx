@@ -11,6 +11,7 @@ interface Product {
   title: string;
   image: string;
   links: ProductLink[];
+  subcategoryUrl?: string;
 }
 
 interface CategoryProductGridProps {
@@ -39,7 +40,13 @@ const CategoryProductGrid: React.FC<CategoryProductGridProps> = ({ products }) =
                     className="object-contain"
                   />
                 </div>
-                <h2 className="text-2xl font-bold text-secondary mb-6 text-center">{product.title}</h2>
+                {product.subcategoryUrl ? (
+                  <Link href={product.subcategoryUrl}>
+                    <h2 className="text-2xl font-bold text-secondary mb-6 text-center hover:text-primary transition-colors cursor-pointer">{product.title}</h2>
+                  </Link>
+                ) : (
+                  <h2 className="text-2xl font-bold text-secondary mb-6 text-center">{product.title}</h2>
+                )}
                 <ul className="space-y-3 w-full">
                   {product.links.map((link, linkIndex) => (
                     <li key={linkIndex} className="text-center">
