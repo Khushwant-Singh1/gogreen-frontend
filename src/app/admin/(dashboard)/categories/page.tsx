@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types/auth';
+import { useCategories } from '@/hooks/useCategories';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ICategory {
   id: string;
@@ -20,9 +22,9 @@ interface ICategory {
 export default function CategoriesAdmin() {
   const { user, hasRole } = useAuth();
   const isAdmin = user?.role === UserRole.ADMIN;
+  const queryClient = useQueryClient();
 
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: categories = [], isLoading: loading, error } = useCategories();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -32,27 +34,14 @@ export default function CategoriesAdmin() {
     image: ''
   });
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
-  const fetchCategories = async () => {
-    try {
-      const res = await axios.get('/api/admin/categories', { withCredentials: true });
-      setCategories(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
-      setLoading(false);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this category?')) return;
     try {
       if (isAdmin) {
          await axios.delete(`/api/admin/categories/${id}`, { withCredentials: true });
-         fetchCategories();
+         queryClient.invalidateQueries({ queryKey: ['categories'] });
       } else {
         await axios.post('/api/admin/pending-changes', {
           action: 'delete',
@@ -73,7 +62,7 @@ export default function CategoriesAdmin() {
       await axios.patch(`/api/admin/categories/${id}/toggle`, {
         isActive: !currentStatus
       }, { withCredentials: true });
-      fetchCategories();
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
     } catch (error) {
       console.error('Error toggling category status:', error);
       alert('Failed to toggle category status');
@@ -120,7 +109,7 @@ export default function CategoriesAdmin() {
         } else {
             await axios.post('/api/admin/categories', payload, { withCredentials: true });
         }
-        fetchCategories();
+        queryClient.invalidateQueries({ queryKey: ['categories'] });
       } else {
          await axios.post('/api/admin/pending-changes', {
           action: editingId ? 'update' : 'create',
