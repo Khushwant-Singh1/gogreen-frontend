@@ -5,7 +5,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { TableData, TableCell, ProductSpecification } from '@/types/specification';
 import { SpecificationTable } from '@/components/SpecificationTable';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 export default function ProductSpecificationsPage() {
   const router = useRouter();

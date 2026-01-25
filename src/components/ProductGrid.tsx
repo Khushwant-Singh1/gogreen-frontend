@@ -125,7 +125,7 @@ const ProductGrid = () => {
         setIsSearching(true);
         try {
           // Use the public API
-           const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/products?search=${encodeURIComponent(query)}`);
+           const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001"}/api/products?search=${encodeURIComponent(query)}`);
            const data = await res.json();
            if (data.success) {
              // Map backend product to frontend shape

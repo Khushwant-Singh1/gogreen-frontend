@@ -27,7 +27,7 @@ export default function GlobalSettingsPage() {
   const { data: settings, isLoading } = useQuery({
     queryKey: ["global-settings"],
     queryFn: async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/settings`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001"}/api/settings`);
       return response.data.data; // API returns object { success: true, data: { key: value } }
     },
   });
@@ -51,7 +51,7 @@ export default function GlobalSettingsPage() {
       }));
 
       return axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api"}/settings`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3001"}/api/settings`,
         { settings: settingsArray },
         { withCredentials: true } // Important for admin auth
       );

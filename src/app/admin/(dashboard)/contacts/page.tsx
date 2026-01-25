@@ -25,7 +25,7 @@ export default function ContactsAdmin() {
   }, []);
 
   // Check if env var is defined, otherwise fallback to localhost:3001
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+  const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api`;
 
   const fetchContacts = async () => {
     try {

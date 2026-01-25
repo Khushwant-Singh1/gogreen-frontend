@@ -1,7 +1,8 @@
 import React from 'react';
 import { ProductSpecification, TableData, ChartData } from '@/types/specification';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 export class SpecificationAPI {
   /**
@@ -11,7 +12,7 @@ export class SpecificationAPI {
     productId: string,
     includeInactive = false
   ): Promise<ProductSpecification[]> {
-    const url = `${API_BASE_URL}/specifications/product/${productId}${
+    const url = `${API_URL}/specifications/product/${productId}${
       includeInactive ? '?includeInactive=true' : ''
     }`;
 
@@ -31,7 +32,7 @@ export class SpecificationAPI {
    * Get a single specification by ID
    */
   static async getById(id: string): Promise<ProductSpecification> {
-    const response = await fetch(`${API_BASE_URL}/specifications/${id}`, {
+    const response = await fetch(`${API_URL}/specifications/${id}`, {
       credentials: 'include',
     });
 
@@ -53,7 +54,7 @@ export class SpecificationAPI {
     content: TableData | ChartData,
     displayOrder?: string
   ): Promise<ProductSpecification> {
-    const response = await fetch(`${API_BASE_URL}/specifications`, {
+    const response = await fetch(`${API_URL}/specifications`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +91,7 @@ export class SpecificationAPI {
       isActive?: boolean;
     }
   ): Promise<ProductSpecification> {
-    const response = await fetch(`${API_BASE_URL}/specifications/${id}`, {
+    const response = await fetch(`${API_URL}/specifications/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -112,7 +113,7 @@ export class SpecificationAPI {
    * Delete a specification
    */
   static async delete(id: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/specifications/${id}`, {
+    const response = await fetch(`${API_URL}/specifications/${id}`, {
       method: 'DELETE',
       credentials: 'include',
     });
@@ -127,7 +128,7 @@ export class SpecificationAPI {
    * Toggle active/inactive status
    */
   static async toggleActive(id: string): Promise<ProductSpecification> {
-    const response = await fetch(`${API_BASE_URL}/specifications/${id}/toggle-active`, {
+    const response = await fetch(`${API_URL}/specifications/${id}/toggle-active`, {
       method: 'PATCH',
       credentials: 'include',
     });

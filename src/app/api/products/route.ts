@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 export async function GET(request: NextRequest) {
   try {
@@ -8,7 +9,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search');
     const subcategoryId = searchParams.get('subcategoryId');
     
-    let url = `${API_BASE_URL}/products`;
+    let url = `${API_URL}/products`;
     const params = new URLSearchParams();
     
     if (search) {

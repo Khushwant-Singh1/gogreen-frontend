@@ -9,7 +9,8 @@ import PageHeader from "@/components/PageHeader";
 import CategoryProductGrid from "@/components/CategoryProductGrid";
 import Footer from "@/components/Footer";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 interface Category {
   id: string;
@@ -40,7 +41,7 @@ interface Product {
 
 async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`, {
+    const response = await fetch(`${API_URL}/categories`, {
       cache: 'no-store',
     });
     
@@ -59,7 +60,7 @@ async function getCategoryBySlug(slug: string): Promise<Category | null> {
 async function getSubcategoriesWithProducts(categoryId: string, categorySlug: string) {
   try {
     // Fetch subcategories
-    const subResponse = await fetch(`${API_BASE_URL}/subcategories?categoryId=${categoryId}`, {
+    const subResponse = await fetch(`${API_URL}/subcategories?categoryId=${categoryId}`, {
       cache: 'no-store',
     });
     
@@ -69,7 +70,7 @@ async function getSubcategoriesWithProducts(categoryId: string, categorySlug: st
     const subcategories = (subData.data || []).filter((sub: Subcategory) => sub.isActive);
     
     // Fetch all products
-    const prodResponse = await fetch(`${API_BASE_URL}/products`, {
+    const prodResponse = await fetch(`${API_URL}/products`, {
       cache: 'no-store',
     });
     

@@ -67,7 +67,7 @@ export default function CategoriesAdmin() {
     
     setUploadingImage(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+      const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001'}/api`;
       const res = await axios.post(`${API_URL}/upload`, uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true

@@ -2,7 +2,8 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+const API_URL = `${API_BASE_URL}/api`;
 
 interface Category {
   id: string;
@@ -36,7 +37,7 @@ interface Product {
 
 async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`, { cache: 'no-store' });
+    const response = await fetch(`${API_URL}/categories`, { cache: 'no-store' });
     if (!response.ok) return null;
     const data = await response.json();
     const categories = data.data || [];
@@ -48,7 +49,7 @@ async function getCategoryBySlug(slug: string): Promise<Category | null> {
 
 async function getSubcategoryBySlug(categoryId: string, slug: string): Promise<Subcategory | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/subcategories?categoryId=${categoryId}`, {
+    const response = await fetch(`${API_URL}/subcategories?categoryId=${categoryId}`, {
       cache: 'no-store',
     });
     if (!response.ok) return null;
@@ -62,7 +63,7 @@ async function getSubcategoryBySlug(categoryId: string, slug: string): Promise<S
 
 async function getProductsBySubcategory(subcategoryId: string): Promise<Product[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/products?subcategoryId=${subcategoryId}`, {
+    const response = await fetch(`${API_URL}/products?subcategoryId=${subcategoryId}`, {
       cache: 'no-store',
     });
     if (!response.ok) return [];
