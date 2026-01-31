@@ -30,6 +30,8 @@ export default function GlobalSettingsPage() {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/settings`);
       return response.data.data; // API returns object { success: true, data: { key: value } }
     },
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   // Update form when data loads
