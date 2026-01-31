@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Script from "next/script";
+import axios from "axios";
 import Navbar from "@/components/Navbar";
 import PageHeader from "@/components/PageHeader";
 import Footer from "@/components/Footer";
@@ -47,14 +48,11 @@ interface Category {
 
 async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/products`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_BASE_URL}/products`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!response.ok) return null;
-    
-    const data = await response.json();
-    const products = data.data || [];
+    const products = response.data.data || [];
     
     return products.find((prod: Product) => prod.slug === slug && prod.isActive) || null;
   } catch (error) {
@@ -65,14 +63,11 @@ async function getProductBySlug(slug: string): Promise<Product | null> {
 
 async function getSubcategoryById(id: string): Promise<Subcategory | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/subcategories/${id}`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_BASE_URL}/subcategories/${id}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!response.ok) return null;
-    
-    const data = await response.json();
-    return data.data || null;
+    return response.data.data || null;
   } catch (error) {
     return null;
   }
@@ -80,14 +75,11 @@ async function getSubcategoryById(id: string): Promise<Subcategory | null> {
 
 async function getCategoryById(id: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_BASE_URL}/categories/${id}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!response.ok) return null;
-    
-    const data = await response.json();
-    return data.data || null;
+    return response.data.data || null;
   } catch (error) {
     return null;
   }

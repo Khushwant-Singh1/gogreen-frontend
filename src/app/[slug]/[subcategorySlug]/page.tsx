@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
 const API_URL = `${API_BASE_URL}/api`;
@@ -37,10 +38,10 @@ interface Product {
 
 async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${API_URL}/categories`, { cache: 'no-store' });
-    if (!response.ok) return null;
-    const data = await response.json();
-    const categories = data.data || [];
+    const response = await axios.get(`${API_URL}/categories`, { 
+      headers: { 'Cache-Control': 'no-store' } 
+    });
+    const categories = response.data.data || [];
     return categories.find((cat: Category) => cat.slug === slug) || null;
   } catch (error) {
     return null;
@@ -49,12 +50,10 @@ async function getCategoryBySlug(slug: string): Promise<Category | null> {
 
 async function getSubcategoryBySlug(categoryId: string, slug: string): Promise<Subcategory | null> {
   try {
-    const response = await fetch(`${API_URL}/subcategories?categoryId=${categoryId}`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_URL}/subcategories?categoryId=${categoryId}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
-    if (!response.ok) return null;
-    const data = await response.json();
-    const subcategories = data.data || [];
+    const subcategories = response.data.data || [];
     return subcategories.find((sub: Subcategory) => sub.slug === slug && sub.isActive) || null;
   } catch (error) {
     return null;
@@ -63,12 +62,10 @@ async function getSubcategoryBySlug(categoryId: string, slug: string): Promise<S
 
 async function getProductsBySubcategory(subcategoryId: string): Promise<Product[]> {
   try {
-    const response = await fetch(`${API_URL}/products?subcategoryId=${subcategoryId}`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_URL}/products?subcategoryId=${subcategoryId}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
-    if (!response.ok) return [];
-    const data = await response.json();
-    return (data.data || []).filter((prod: Product) => prod.isActive);
+    return (response.data.data || []).filter((prod: Product) => prod.isActive);
   } catch (error) {
     return [];
   }

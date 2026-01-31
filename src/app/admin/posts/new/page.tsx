@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import RichTextEditor from '@/components/RichTextEditor';
 
@@ -24,28 +25,15 @@ export default function CreatePostPage() {
     setIsPublishing(true);
 
     try {
-      const res = await fetch('/api/admin/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title,
-          slug,
-          content,
-          published: true,
-        }),
+      const res = await axios.post('/api/admin/posts', {
+        title,
+        slug,
+        content,
+        published: true,
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        alert(`Error: ${JSON.stringify(err)}`);
-        return;
-      }
-
-      const data = await res.json();
       alert('Post created successfully!');
-      router.push(`/blog/${data.slug}`);
+      router.push(`/blog/${res.data.slug}`);
     } catch (error) {
       console.error(error);
       alert('Failed to create post');

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import TanStackProvider from "@/components/TanStackProvider";
+import axios from "axios";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -112,15 +113,14 @@ async function getGlobalSettings() {
       return null;
     }
     
-    const res = await fetch(`${backendUrl}/settings`, {
-      cache: "no-store",
+    const response = await axios.get(`${backendUrl}/settings`, {
+      headers: {
+        'Cache-Control': 'no-store',
+      },
     });
     
-    if (!res.ok) return null;
-    
     // API returns { success: true, data: { ... } }
-    const json = await res.json();
-    return json.success ? json.data : null;
+    return response.data.success ? response.data.data : null;
   } catch (error) {
     // Silently return null on error - WhatsApp button just won't show
     console.error('Failed to fetch global settings:', error);

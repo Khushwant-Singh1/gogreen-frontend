@@ -1,5 +1,6 @@
  import React from "react";
 import { notFound } from "next/navigation";
+import axios from "axios";
 import { productData } from "@/data/product-data";
 import { countryData } from "@/data/country-data";
 import ProductDetail from "@/components/ProductDetail";
@@ -41,14 +42,11 @@ interface Product {
 
 async function getCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    const response = await fetch(`${API_URL}/categories`, {
-      cache: 'no-store',
+    const response = await axios.get(`${API_URL}/categories`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!response.ok) return null;
-    
-    const data = await response.json();
-    const categories = data.data || [];
+    const categories = response.data.data || [];
     
     return categories.find((cat: Category) => cat.slug === slug && cat.isActive) || null;
   } catch (error) {
@@ -60,24 +58,21 @@ async function getCategoryBySlug(slug: string): Promise<Category | null> {
 async function getSubcategoriesWithProducts(categoryId: string, categorySlug: string) {
   try {
     // Fetch subcategories
-    const subResponse = await fetch(`${API_URL}/subcategories?categoryId=${categoryId}`, {
-      cache: 'no-store',
+    const subResponse = await axios.get(`${API_URL}/subcategories?categoryId=${categoryId}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!subResponse.ok) return [];
-    
-    const subData = await subResponse.json();
-    const subcategories = (subData.data || []).filter((sub: Subcategory) => sub.isActive);
+    const subcategories = (subResponse.data.data || []).filter((sub: Subcategory) => sub.isActive);
     
     // Fetch all products
-    const prodResponse = await fetch(`${API_URL}/products`, {
-      cache: 'no-store',
-    });
-    
     let allProducts: Product[] = [];
-    if (prodResponse.ok) {
-      const prodData = await prodResponse.json();
-      allProducts = (prodData.data || []).filter((prod: Product) => prod.isActive);
+    try {
+      const prodResponse = await axios.get(`${API_URL}/products`, {
+        headers: { 'Cache-Control': 'no-store' },
+      });
+      allProducts = (prodResponse.data.data || []).filter((prod: Product) => prod.isActive);
+    } catch (error) {
+      console.error('Error fetching products:', error);
     }
     
     // Map subcategories to the format needed for CategoryProductGrid

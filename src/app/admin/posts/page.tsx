@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -26,12 +27,8 @@ export default function AdminPostsPage() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch('/api/admin/posts');
-      if (!res.ok) {
-        throw new Error('Failed to fetch posts');
-      }
-      const data = await res.json();
-      setPosts(data);
+      const res = await axios.get('/api/admin/posts');
+      setPosts(res.data);
     } catch (err) {
       setError('Failed to load posts');
       console.error(err);

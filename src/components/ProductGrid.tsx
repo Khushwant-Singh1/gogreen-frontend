@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
 import { motion } from "framer-motion";
 
 const products = [
@@ -125,14 +126,13 @@ const ProductGrid = () => {
         setIsSearching(true);
         try {
           // Use the public API
-           const res = await fetch(`${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/products?search=${encodeURIComponent(query)}`);
-           const data = await res.json();
-           if (data.success) {
+           const res = await axios.get(`${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/products?search=${encodeURIComponent(query)}`);
+           if (res.data.success) {
              // Map backend product to frontend shape
              // Backend: { name, description, images, ... }
              // Frontend: { title, desc, img, icon, link }
              // We need to map this.
-             const mapped = data.data.map((p: any) => ({
+             const mapped = res.data.data.map((p: any) => ({
                title: p.name,
                desc: p.description || p.shortDescription || "",
                img: p.images?.[0] || "https://d170mw2nhcb1v0.cloudfront.net/img/9.png", // fallback

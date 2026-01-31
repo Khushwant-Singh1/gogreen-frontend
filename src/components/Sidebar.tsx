@@ -28,6 +28,7 @@ const Sidebar = () => {
   const adminItems = [
     { label: 'Users', href: '/admin/users' },
     { label: 'Approvals', href: '/admin/changes' },
+    { label: 'Settings', href: '/admin/settings' },
   ];
 
   const isActive = (href: string, exact: boolean = false) => {

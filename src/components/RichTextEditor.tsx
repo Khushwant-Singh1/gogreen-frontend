@@ -2,6 +2,7 @@
 'use client';
 
 import { useEditor, EditorContent } from '@tiptap/react';
+import axios from 'axios';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -15,6 +16,8 @@ import {
   Undo, Redo, Link as LinkIcon 
 } from 'lucide-react';
 import { useCallback } from 'react';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
 
 interface RichTextEditorProps {
   content: any;
@@ -41,18 +44,13 @@ const MenuBar = ({ editor }: { editor: any }) => {
           // Assuming backend is at http://localhost:3001 or proxied via Next.js rewrites
           // For now, hardcoding localhost:3001 based on backend setup, or relative if proxied
           // Since we are separated, let's try direct call or use environment var.
-          const res = await fetch('http://localhost:3001/api/upload', {
-            method: 'POST',
-            body: formData,
+          const res = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
             // Add Authorization header if needed (from localStorage or cookie)
             // headers: { Authorization: `Bearer ${token}` }
           });
           
-          if (!res.ok) throw new Error('Upload failed');
-          
-          const data = await res.json();
-          if (data.url) {
-            editor.chain().focus().setImage({ src: `http://localhost:3001${data.url}` }).run();
+          if (res.data.url) {
+            editor.chain().focus().setImage({ src: `${API_BASE_URL}${res.data.url}` }).run();
           }
         } catch (err) {
           console.error(err);

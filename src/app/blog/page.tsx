@@ -1,8 +1,11 @@
 import React from "react";
+import axios from "axios";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
 
 // Disable caching to see new posts
 export const dynamic = 'force-dynamic';
@@ -21,16 +24,11 @@ interface Post {
 // Fetch published blog posts from backend
 async function getPosts(): Promise<Post[]> {
   try {
-    const res = await fetch('http://localhost:3001/api/posts?public=true', {
-      cache: 'no-store',
+    const res = await axios.get(`${API_BASE_URL}/api/posts?public=true`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!res.ok) {
-      console.error('Failed to fetch posts');
-      return [];
-    }
-    
-    return res.json();
+    return res.data;
   } catch (error) {
     console.error('Error fetching posts:', error);
     return [];

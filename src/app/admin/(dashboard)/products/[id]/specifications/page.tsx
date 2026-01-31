@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useRouter, useParams } from 'next/navigation';
 import { TableData, TableCell, ProductSpecification } from '@/types/specification';
 import { SpecificationTable } from '@/components/SpecificationTable';
@@ -41,16 +42,11 @@ export default function ProductSpecificationsPage() {
   const fetchSpecifications = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/specifications/product/${productId}?includeInactive=true`, {
-        credentials: 'include',
+      const response = await axios.get(`${API_URL}/specifications/product/${productId}?includeInactive=true`, {
+        withCredentials: true,
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch specifications');
-      }
-
-      const data = await response.json();
-      setSpecifications(data.data || []);
+      setSpecifications(response.data.data || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load specifications');
     } finally {
@@ -124,24 +120,17 @@ export default function ProductSpecificationsPage() {
         ? `${API_URL}/specifications/${editingId}`
         : `${API_URL}/specifications`;
 
-      const method = editingId ? 'PUT' : 'POST';
+      const method = editingId ? 'put' : 'post';
 
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          productId,
-          title,
-          type,
-          content: tableData,
-          displayOrder,
-        }),
+      await axios[method](url, {
+        productId,
+        title,
+        type,
+        content: tableData,
+        displayOrder,
+      }, {
+        withCredentials: true,
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to save specification');
-      }
 
       setShowForm(false);
       setTitle('');
@@ -157,14 +146,9 @@ export default function ProductSpecificationsPage() {
 
   const toggleStatus = async (id: string) => {
     try {
-      const response = await fetch(`${API_URL}/specifications/${id}/toggle-active`, {
-        method: 'PATCH',
-        credentials: 'include',
+      await axios.patch(`${API_URL}/specifications/${id}/toggle-active`, {}, {
+        withCredentials: true,
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to update status');
-      }
 
       fetchSpecifications();
     } catch (err) {
@@ -178,14 +162,9 @@ export default function ProductSpecificationsPage() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/specifications/${id}`, {
-        method: 'DELETE',
-        credentials: 'include',
+      await axios.delete(`${API_URL}/specifications/${id}`, {
+        withCredentials: true,
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete specification');
-      }
 
       fetchSpecifications();
     } catch (err) {

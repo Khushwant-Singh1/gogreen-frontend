@@ -1,8 +1,11 @@
 import BlogPostViewer from '@/components/BlogPostViewer';
+import axios from 'axios';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
 
 // Disable caching for demo purposes to see new posts immediately
 export const dynamic = 'force-dynamic';
@@ -20,13 +23,11 @@ interface Post {
 
 async function getPost(slug: string): Promise<Post | null> {
   try {
-    const res = await fetch(`http://localhost:3001/api/posts/${slug}`, {
-      cache: 'no-store',
+    const res = await axios.get(`${API_BASE_URL}/api/posts/${slug}`, {
+      headers: { 'Cache-Control': 'no-store' },
     });
     
-    if (!res.ok) return null;
-    
-    return res.json();
+    return res.data;
   } catch (error) {
     console.error('Error fetching post:', error);
     return null;

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { ProductSpecification, TableData, ChartData } from '@/types/specification';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
@@ -16,32 +17,22 @@ export class SpecificationAPI {
       includeInactive ? '?includeInactive=true' : ''
     }`;
 
-    const response = await fetch(url, {
-      credentials: 'include',
+    const response = await axios.get(url, {
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch specifications');
-    }
-
-    const data = await response.json();
-    return data.data;
+    return response.data.data;
   }
 
   /**
    * Get a single specification by ID
    */
   static async getById(id: string): Promise<ProductSpecification> {
-    const response = await fetch(`${API_URL}/specifications/${id}`, {
-      credentials: 'include',
+    const response = await axios.get(`${API_URL}/specifications/${id}`, {
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch specification');
-    }
-
-    const data = await response.json();
-    return data.data;
+    return response.data.data;
   }
 
   /**
@@ -54,28 +45,17 @@ export class SpecificationAPI {
     content: TableData | ChartData,
     displayOrder?: string
   ): Promise<ProductSpecification> {
-    const response = await fetch(`${API_URL}/specifications`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        productId,
-        title,
-        type,
-        content,
-        displayOrder: displayOrder || '0',
-      }),
+    const response = await axios.post(`${API_URL}/specifications`, {
+      productId,
+      title,
+      type,
+      content,
+      displayOrder: displayOrder || '0',
+    }, {
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to create specification');
-    }
-
-    const data = await response.json();
-    return data.data;
+    return response.data.data;
   }
 
   /**
@@ -91,55 +71,31 @@ export class SpecificationAPI {
       isActive?: boolean;
     }
   ): Promise<ProductSpecification> {
-    const response = await fetch(`${API_URL}/specifications/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(updates),
+    const response = await axios.put(`${API_URL}/specifications/${id}`, updates, {
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to update specification');
-    }
-
-    const data = await response.json();
-    return data.data;
+    return response.data.data;
   }
 
   /**
    * Delete a specification
    */
   static async delete(id: string): Promise<void> {
-    const response = await fetch(`${API_URL}/specifications/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
+    await axios.delete(`${API_URL}/specifications/${id}`, {
+      withCredentials: true,
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to delete specification');
-    }
   }
 
   /**
    * Toggle active/inactive status
    */
   static async toggleActive(id: string): Promise<ProductSpecification> {
-    const response = await fetch(`${API_URL}/specifications/${id}/toggle-active`, {
-      method: 'PATCH',
-      credentials: 'include',
+    const response = await axios.patch(`${API_URL}/specifications/${id}/toggle-active`, {}, {
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to toggle specification status');
-    }
-
-    const data = await response.json();
-    return data.data;
+    return response.data.data;
   }
 }
 
