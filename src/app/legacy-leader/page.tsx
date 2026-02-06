@@ -17,7 +17,7 @@ const LegacyLeaderPage = () => {
       badge: "1st Generation The Visionary",
       name: "Late Shri Dhirendar Kumar Jain (D.K. Jain)",
       title: "Founder – Engineer, Architect and Precision Specialist",
-      img: "https://d170mw2nhcb1v0.cloudfront.net/img/dada-ji.png",
+      img: "https://d170mw2nhcb1v0.cloudfront.net/img/7.jpg",
       points: [
         "Pioneer in OEM and white-label manufacturing for irrigation brands.",
         "Renowned for deep expertise in flow discharge accuracy and sprinkler performance.",
@@ -34,7 +34,7 @@ const LegacyLeaderPage = () => {
       badge: "2nd Generation The Expansion Leader",
       name: "Mr. Vineet Jain",
       title: "Driving Growth, Modernisation, and Global Expansion",
-      img: "https://d170mw2nhcb1v0.cloudfront.net/img/vineet-jain.png",
+      img: "https://d170mw2nhcb1v0.cloudfront.net/img/6.jpg",
       intro: "Joining the business in 1995, he led Vidhi Enterprises into a phase of structured growth and international presence through:",
       points: [
         "Technological advancements",
@@ -54,7 +54,7 @@ const LegacyLeaderPage = () => {
       badge: "3rd Generation The Future-Ready Vision",
       name: "Mr. Vibhor Jain",
       title: "Innovation, Global Strategy and Next-Generation Precision",
-      img: "https://d170mw2nhcb1v0.cloudfront.net/img/vibhor-jain.png",
+      img: "https://d170mw2nhcb1v0.cloudfront.net/img/5.jpg",
       intro: "Joining the company in 2018, he began his journey on the factory floor, gaining hands-on experience in production, moulding, testing and quality control. Before representing Vidhi Enterprises globally, he immersed himself in the company's technical foundation. His key contributions include:",
       points: [
         "Expansion into African markets, with significant success in Kenya in 2024",
