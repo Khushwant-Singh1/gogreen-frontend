@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import RichTextEditor from '@/components/RichTextEditor';
 import { generateSlug } from '@/lib/slug';
@@ -35,11 +35,10 @@ export default function CreatePostPage() {
     uploadData.append('file', file);
     
     setUploadingImage(true);
+    setUploadingImage(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api`;
-      const res = await axios.post(`${API_URL}/upload`, uploadData, {
+      const res = await axiosInstance.post('/upload', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
       });
       setCoverImage(res.data.url);
       alert('Image uploaded successfully!');
@@ -56,7 +55,7 @@ export default function CreatePostPage() {
     setIsPublishing(true);
 
     try {
-      const res = await axios.post('/api/admin/posts', {
+      const res = await axiosInstance.post('/admin/posts', {
         title,
         slug,
         content,

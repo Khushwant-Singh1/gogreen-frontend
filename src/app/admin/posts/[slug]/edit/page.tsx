@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import RichTextEditor from '@/components/RichTextEditor';
 
@@ -23,7 +23,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const fetchPost = async () => {
     try {
       const postSlug = (await params).slug;
-      const res = await axios.get(`/api/admin/posts/${postSlug}`);
+      const res = await axiosInstance.get(`/admin/posts/${postSlug}`);
       const post = res.data;
       setTitle(post.title);
       setSlug(post.slug);
@@ -46,11 +46,10 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     uploadData.append('file', file);
     
     setUploadingImage(true);
+    setUploadingImage(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api`;
-      const res = await axios.post(`${API_URL}/upload`, uploadData, {
+      const res = await axiosInstance.post('/upload', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
       });
       setCoverImage(res.data.url);
       alert('Cover image uploaded successfully!');
@@ -68,7 +67,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
 
     try {
       const postSlug = (await params).slug;
-      await axios.put(`/api/admin/posts/${postSlug}`, {
+      await axiosInstance.put(`/admin/posts/${postSlug}`, {
         title,
         slug,
         content,

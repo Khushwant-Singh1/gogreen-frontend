@@ -2,7 +2,7 @@
 'use client';
 
 import { useEditor, EditorContent } from '@tiptap/react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { useCallback } from 'react';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
+
 
 interface RichTextEditorProps {
   content: any;
@@ -40,17 +40,26 @@ const MenuBar = ({ editor }: { editor: any }) => {
         formData.append('file', file);
 
         try {
-          // Adjust API URL based on your environment variable or proxy setup
-          // Assuming backend is at http://localhost:3001 or proxied via Next.js rewrites
-          // For now, hardcoding localhost:3001 based on backend setup, or relative if proxied
-          // Since we are separated, let's try direct call or use environment var.
-          const res = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
-            // Add Authorization header if needed (from localStorage or cookie)
-            // headers: { Authorization: `Bearer ${token}` }
+          // Use configured axiosInstance which handles baseURL and credentials
+          const res = await axiosInstance.post('/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
           });
           
           if (res.data.url) {
-            editor.chain().focus().setImage({ src: `${API_BASE_URL}${res.data.url}` }).run();
+            // Note: We still need the full URL for the image src if it's relative, 
+            // but the backend returns a full URL if CloudFront is used, or a relative one if not.
+            // If it returns relative 'uploads/...', we might need to prepend base URL.
+            // However, the previous code was prepending API_BASE_URL.
+            // Let's check what the backend returns. Backend upload logic says:
+            // "Return CloudFront URL if configured, otherwise S3 URL" -> these are absolute.
+            // OR it returns `location` from multer-s3, which is usually absolute.
+            // So we likely don't need to prepend anything if backend works as expected.
+            // But let's be safe and check if it's absolute.
+            
+            const imageUrl = res.data.url;
+            editor.chain().focus().setImage({ src: imageUrl }).run();
           }
         } catch (err) {
           console.error(err);

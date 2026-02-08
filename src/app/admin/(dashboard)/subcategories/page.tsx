@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types/auth';
 import { generateSlug } from '@/lib/slug';
@@ -62,7 +62,7 @@ export default function SubcategoriesAdmin() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('/api/admin/categories', { withCredentials: true });
+      const res = await axiosInstance.get('/admin/categories');
       setCategories(res.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -72,9 +72,9 @@ export default function SubcategoriesAdmin() {
   const fetchSubcategories = async (categoryId?: string) => {
     try {
       const url = categoryId 
-        ? `/api/admin/subcategories?categoryId=${categoryId}`
-        : '/api/admin/subcategories';
-      const res = await axios.get(url, { withCredentials: true });
+        ? `/admin/subcategories?categoryId=${categoryId}`
+        : '/admin/subcategories';
+      const res = await axiosInstance.get(url);
       setSubcategories(res.data);
       setLoading(false);
     } catch (error) {
@@ -101,10 +101,8 @@ export default function SubcategoriesAdmin() {
     
     setUploadingImage(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api`;
-      const res = await axios.post(`${API_URL}/upload`, uploadData, {
+      const res = await axiosInstance.post('/upload', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
       });
       setFormData(prev => ({ ...prev, image: res.data.url }));
       alert('Image uploaded successfully!');
@@ -120,10 +118,10 @@ export default function SubcategoriesAdmin() {
     if (!confirm('Are you sure you want to delete this subcategory?')) return;
     try {
       if (isAdmin) {
-        await axios.delete(`/api/admin/subcategories/${id}`, { withCredentials: true });
+        await axiosInstance.delete(`/admin/subcategories/${id}`);
         fetchSubcategories(filterCategoryId || undefined);
       } else {
-        await axios.post('/api/admin/pending-changes', {
+        await axiosInstance.post('/admin/pending-changes', {
           action: 'delete',
           resourceType: 'subcategory',
           resourceId: id,
@@ -139,7 +137,7 @@ export default function SubcategoriesAdmin() {
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     try {
-      await axios.patch(`/api/admin/subcategories/${id}/toggle`, {
+      await axiosInstance.patch(`/admin/subcategories/${id}/toggle`, {
         isActive: !currentStatus
       }, { withCredentials: true });
       fetchSubcategories(filterCategoryId || undefined);
@@ -195,13 +193,13 @@ export default function SubcategoriesAdmin() {
 
       if (isAdmin) {
         if (editingId) {
-          await axios.patch(`/api/admin/subcategories/${editingId}`, payload, { withCredentials: true });
+          await axiosInstance.patch(`/admin/subcategories/${editingId}`, payload);
         } else {
-          await axios.post('/api/admin/subcategories', payload, { withCredentials: true });
+          await axiosInstance.post('/admin/subcategories', payload);
         }
         fetchSubcategories(filterCategoryId || undefined);
       } else {
-         await axios.post('/api/admin/pending-changes', {
+         await axiosInstance.post('/admin/pending-changes', {
           action: editingId ? 'update' : 'create',
           resourceType: 'subcategory',
           resourceId: editingId || undefined,

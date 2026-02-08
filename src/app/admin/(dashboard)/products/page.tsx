@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types/auth';
 import { generateSlug } from '@/lib/slug';
@@ -99,7 +99,7 @@ export default function ProductsAdmin() {
 
   const fetchStaticRoutes = async () => {
     try {
-      const res = await axios.get('/api/admin/static-routes', { withCredentials: true });
+      const res = await axiosInstance.get('/admin/static-routes');
       console.log('Static routes fetched:', res.data);
       setStaticRoutes(res.data);
     } catch (error) {
@@ -109,7 +109,7 @@ export default function ProductsAdmin() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('/api/admin/categories', { withCredentials: true });
+      const res = await axiosInstance.get('/admin/categories');
       setCategories(res.data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -118,7 +118,7 @@ export default function ProductsAdmin() {
 
   const fetchSubcategories = async () => {
     try {
-      const res = await axios.get('/api/admin/subcategories', { withCredentials: true });
+      const res = await axiosInstance.get('/admin/subcategories');
       setSubcategories(res.data);
     } catch (error) {
       console.error('Error fetching subcategories:', error);
@@ -128,9 +128,9 @@ export default function ProductsAdmin() {
   const fetchProducts = async (subcategoryId?: string) => {
     try {
       const url = subcategoryId 
-        ? `/api/admin/products?subcategoryId=${subcategoryId}`
-        : '/api/admin/products';
-      const res = await axios.get(url, { withCredentials: true });
+        ? `/admin/products?subcategoryId=${subcategoryId}`
+        : '/admin/products';
+      const res = await axiosInstance.get(url);
       setProducts(res.data);
       setLoading(false);
     } catch (error) {
@@ -158,10 +158,10 @@ export default function ProductsAdmin() {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
       if (isAdmin) {
-        await axios.delete(`/api/admin/products/${id}`, { withCredentials: true });
+        await axiosInstance.delete(`/admin/products/${id}`);
         fetchProducts(filterSubcategoryId || undefined);
       } else {
-         await axios.post('/api/admin/pending-changes', {
+         await axiosInstance.post('/admin/pending-changes', {
           action: 'delete',
           resourceType: 'product',
           resourceId: id,
@@ -177,7 +177,7 @@ export default function ProductsAdmin() {
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     try {
-      await axios.patch(`/api/admin/products/${id}/toggle`, {
+      await axiosInstance.patch(`/admin/products/${id}/toggle`, {
         isActive: !currentStatus
       }, { withCredentials: true });
       fetchProducts(filterSubcategoryId || undefined);
@@ -246,11 +246,10 @@ export default function ProductsAdmin() {
     uploadData.append('file', file);
     
     setUploadingPdf(true);
+    setUploadingPdf(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api`;
-      const res = await axios.post(`${API_URL}/upload`, uploadData, {
+      const res = await axiosInstance.post('/upload', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
       });
       setFormData(prev => ({ ...prev, pdfUrl: res.data.url }));
     } catch (error) {
@@ -276,9 +275,8 @@ export default function ProductsAdmin() {
         const uploadData = new FormData();
         uploadData.append('file', file);
         
-        const res = await axios.post(`${API_URL}/upload`, uploadData, {
+        const res = await axiosInstance.post('/upload', uploadData, {
           headers: { 'Content-Type': 'multipart/form-data' },
-          withCredentials: true
         });
         
         uploadedUrls.push(res.data.url);
@@ -340,14 +338,14 @@ export default function ProductsAdmin() {
 
       if (isAdmin) {
         if (editingId) {
-          await axios.patch(`/api/admin/products/${editingId}`, payload, { withCredentials: true });
+          await axiosInstance.patch(`/admin/products/${editingId}`, payload);
         } else {
-          await axios.post('/api/admin/products', payload, { withCredentials: true });
+          await axiosInstance.post('/admin/products', payload);
         }
         fetchProducts(filterSubcategoryId || undefined);
       } else {
         // Editor Workflow
-         await axios.post('/api/admin/pending-changes', {
+         await axiosInstance.post('/admin/pending-changes', {
           action: editingId ? 'update' : 'create',
           resourceType: 'product',
           resourceId: editingId || undefined,

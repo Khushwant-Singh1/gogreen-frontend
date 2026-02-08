@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types/auth';
 import { useCategories } from '@/hooks/useCategories';
@@ -53,10 +53,10 @@ export default function CategoriesAdmin() {
     if (!confirm('Are you sure you want to delete this category?')) return;
     try {
       if (isAdmin) {
-         await axios.delete(`/api/admin/categories/${id}`, { withCredentials: true });
+         await axiosInstance.delete(`/admin/categories/${id}`);
          queryClient.invalidateQueries({ queryKey: ['categories'] });
       } else {
-        await axios.post('/api/admin/pending-changes', {
+        await axiosInstance.post('/admin/pending-changes', {
           action: 'delete',
           resourceType: 'category',
           resourceId: id,
@@ -78,11 +78,10 @@ export default function CategoriesAdmin() {
     uploadData.append('file', file);
     
     setUploadingImage(true);
+    setUploadingImage(true);
     try {
-      const API_URL = `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001'}/api`;
-      const res = await axios.post(`${API_URL}/upload`, uploadData, {
+      const res = await axiosInstance.post('/upload', uploadData, {
         headers: { 'Content-Type': 'multipart/form-data' },
-        withCredentials: true
       });
       setFormData(prev => ({ ...prev, image: res.data.url }));
       alert('Image uploaded successfully!');
@@ -96,9 +95,9 @@ export default function CategoriesAdmin() {
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     try {
-      await axios.patch(`/api/admin/categories/${id}/toggle`, {
+      await axiosInstance.patch(`/admin/categories/${id}/toggle`, {
         isActive: !currentStatus
-      }, { withCredentials: true });
+      });
       queryClient.invalidateQueries({ queryKey: ['categories'] });
     } catch (error) {
       console.error('Error toggling category status:', error);
@@ -144,13 +143,13 @@ export default function CategoriesAdmin() {
 
       if (isAdmin) {
         if (editingId) {
-            await axios.patch(`/api/admin/categories/${editingId}`, payload, { withCredentials: true });
+            await axiosInstance.patch(`/admin/categories/${editingId}`, payload);
         } else {
-            await axios.post('/api/admin/categories', payload, { withCredentials: true });
+            await axiosInstance.post('/admin/categories', payload);
         }
         queryClient.invalidateQueries({ queryKey: ['categories'] });
       } else {
-         await axios.post('/api/admin/pending-changes', {
+         await axiosInstance.post('/admin/pending-changes', {
           action: editingId ? 'update' : 'create',
           resourceType: 'category',
           resourceId: editingId || undefined,

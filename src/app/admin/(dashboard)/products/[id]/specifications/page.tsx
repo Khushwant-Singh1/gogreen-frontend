@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '@/lib/axios';
 import { useRouter, useParams } from 'next/navigation';
 import { TableData, TableCell, ProductSpecification, ImageData } from '@/types/specification';
 import { SpecificationTable } from '@/components/SpecificationTable';
 import Image from 'next/image';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || 'http://localhost:3001';
-const API_URL = `${API_BASE_URL}/api`;
+
 
 export default function ProductSpecificationsPage() {
   const router = useRouter();
@@ -49,9 +48,7 @@ export default function ProductSpecificationsPage() {
   const fetchSpecifications = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/specifications/product/${productId}?includeInactive=true`, {
-        withCredentials: true,
-      });
+      const response = await axiosInstance.get(`/specifications/product/${productId}?includeInactive=true`);
 
       setSpecifications(response.data.data || []);
     } catch (err) {
@@ -142,19 +139,18 @@ export default function ProductSpecificationsPage() {
 
     try {
       const url = editingId
-        ? `${API_URL}/specifications/${editingId}`
-        : `${API_URL}/specifications`;
+        ? `/specifications/${editingId}`
+        : `/specifications`;
 
       const method = editingId ? 'put' : 'post';
 
-      await axios[method](url, {
+      // Type assertion for dynamic method access on axiosInstance
+      await (axiosInstance as any)[method](url, {
         productId,
         title,
         type,
         content,
         displayOrder,
-      }, {
-        withCredentials: true,
       });
 
       setShowForm(false);
@@ -174,9 +170,7 @@ export default function ProductSpecificationsPage() {
 
   const toggleStatus = async (id: string) => {
     try {
-      await axios.patch(`${API_URL}/specifications/${id}/toggle-active`, {}, {
-        withCredentials: true,
-      });
+      await axiosInstance.patch(`/specifications/${id}/toggle-active`, {});
 
       fetchSpecifications();
     } catch (err) {
@@ -190,9 +184,7 @@ export default function ProductSpecificationsPage() {
     }
 
     try {
-      await axios.delete(`${API_URL}/specifications/${id}`, {
-        withCredentials: true,
-      });
+      await axiosInstance.delete(`/specifications/${id}`);
 
       fetchSpecifications();
     } catch (err) {
@@ -349,9 +341,8 @@ export default function ProductSpecificationsPage() {
                         
                         setUploadingImage(true);
                         try {
-                          const res = await axios.post(`${API_URL}/upload`, uploadData, {
+                          const res = await axiosInstance.post('/upload', uploadData, {
                             headers: { 'Content-Type': 'multipart/form-data' },
-                            withCredentials: true
                           });
                           setImageUrl(res.data.url);
                         } catch (error) {

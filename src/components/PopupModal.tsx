@@ -44,15 +44,6 @@ export default function PopupModal() {
       })
       .catch((err) => {
         console.error("Failed to fetch popups:", err);
-        // Fallback for demonstration/debugging if backend fails
-        console.log("PopupModal: Using mock data for testing.");
-        setPopups([{
-           id: "mock-1",
-           imageUrl: "https://d170mw2nhcb1v0.cloudfront.net/img/vidhi_logo.png", // Irrigation image
-           isActive: true,
-           startDate: null,
-           endDate: null
-        }]);
         setIsOpen(true);
       })
       .finally(() => setIsLoading(false));
