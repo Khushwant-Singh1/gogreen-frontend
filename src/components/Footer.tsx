@@ -86,6 +86,15 @@ const Footer = () => {
               height={150}
               className="h-36 w-auto brightness-0 invert" 
             />
+            <div className="flex items-center justify-start">
+              <Image 
+                src="https://d170mw2nhcb1v0.cloudfront.net/img/image.png" 
+                alt="Made in India" 
+                width={120}
+                height={60}
+                className="h-20 w-auto mt-2"
+              />
+            </div>
             <p className="text-gray-400">
               Engineering Smart Irrigation Solutions for a Greener Tomorrow. Trusted manufacturer of Drip, Sprinkler & Micro Irrigation Products.
             </p>
