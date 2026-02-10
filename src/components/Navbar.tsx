@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-
+import { useRouter, usePathname } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import axios from "axios";
 
 
@@ -19,8 +19,23 @@ const Navbar = ({ initialCategories = [] }: NavbarProps) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Clear loading state when path changes
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
+
+  // Handle category navigation with loading
+  const handleCategoryClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsNavigating(true);
+    setIsNavOpen(false);
+    router.push(href);
+  };
 
   useEffect(() => {
     // Only fetch if no initial data provided
@@ -230,15 +245,22 @@ const Navbar = ({ initialCategories = [] }: NavbarProps) => {
                 <div className="lg:absolute left-0 mt-0 w-48 bg-light border-none rounded shadow-xl hidden group-hover:block z-50">
                   {categories.length > 0 ? (
                     categories.map((cat) => (
-                      <Link key={cat._id} href={`/${cat.slug}`} className="dropdown-item"><b>{cat.name}</b></Link>
+                      <a 
+                        key={cat._id} 
+                        href={`/${cat.slug}`} 
+                        onClick={(e) => handleCategoryClick(e, `/${cat.slug}`)}
+                        className="dropdown-item cursor-pointer"
+                      >
+                        <b>{cat.name}</b>
+                      </a>
                     ))
                   ) : [
-                      <Link key="dripirri" href="/dripirri" className="dropdown-item"><b>Drip Irrigation</b></Link>,
-                      <Link key="sprinkler" href="/sprinkler" className="dropdown-item"><b>Sprinkler Irrigation</b></Link>,
-                      <Link key="rainsprinkler" href="/rainsprinkler" className="dropdown-item"><b>Rain Sprinkler</b></Link>,
-                      <Link key="landscape" href="/landscape" className="dropdown-item"><b>Landscape Irrigation</b></Link>,
-                      <Link key="economical" href="/economical" className="dropdown-item"><b>Economical Irrigation</b></Link>,
-                      <Link key="vidhi-kit" href="/vidhi-kit" className="dropdown-item"><b>Vidhi Kit</b></Link>
+                      <a key="dripirri" href="/dripirri" onClick={(e) => handleCategoryClick(e, '/dripirri')} className="dropdown-item cursor-pointer"><b>Drip Irrigation</b></a>,
+                      <a key="sprinkler" href="/sprinkler" onClick={(e) => handleCategoryClick(e, '/sprinkler')} className="dropdown-item cursor-pointer"><b>Sprinkler Irrigation</b></a>,
+                      <a key="rainsprinkler" href="/rainsprinkler" onClick={(e) => handleCategoryClick(e, '/rainsprinkler')} className="dropdown-item cursor-pointer"><b>Rain Sprinkler</b></a>,
+                      <a key="landscape" href="/landscape" onClick={(e) => handleCategoryClick(e, '/landscape')} className="dropdown-item cursor-pointer"><b>Landscape Irrigation</b></a>,
+                      <a key="economical" href="/economical" onClick={(e) => handleCategoryClick(e, '/economical')} className="dropdown-item cursor-pointer"><b>Economical Irrigation</b></a>,
+                      <a key="vidhi-kit" href="/vidhi-kit" onClick={(e) => handleCategoryClick(e, '/vidhi-kit')} className="dropdown-item cursor-pointer"><b>Vidhi Kit</b></a>
                   ]}
                 </div>
               </div>
@@ -278,6 +300,13 @@ const Navbar = ({ initialCategories = [] }: NavbarProps) => {
           </div>
         </div>
       </div>
+
+      {/* Loading Overlay */}
+      {isNavigating && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-sm">
+          <LoadingSpinner variant="leaf" size="xl" text="Loading products..." />
+        </div>
+      )}
     </nav>
   );
 };

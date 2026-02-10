@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useRouter, usePathname } from "next/navigation";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const products = [
   {
@@ -53,6 +55,21 @@ const products = [
 
 const ProductGrid = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [isNavigating, setIsNavigating] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Clear loading state when path changes
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
+
+  // Handle product click with loading
+  const handleProductClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsNavigating(true);
+    router.push(href);
+  };
   // In a real application, you would fetch products from the API based on the search query.
   // For now, since the `products` array is hardcoded in this file (as per existing code),
   // we will filter the hardcoded array. 
@@ -182,7 +199,15 @@ const ProductGrid = () => {
   };
 
   return (
-    <section className="py-24 bg-white">
+    <>
+      {/* Loading Overlay */}
+      {isNavigating && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-sm">
+          <LoadingSpinner variant="leaf" size="xl" text="Loading product..." />
+        </div>
+      )}
+
+      <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -249,22 +274,27 @@ const ProductGrid = () => {
                       transition={{ duration: 0.6 }}
                       className="w-24 h-24 rounded-full bg-white shadow-lg mx-auto mb-6 flex items-center justify-center p-3"
                     >
-                      <Link href={p.link}>
+                      <a 
+                        href={p.link}
+                        onClick={(e) => handleProductClick(e, p.link)}
+                        className="cursor-pointer"
+                      >
                         <Image src={p.icon} alt="Icon" width={200} height={200} className="w-24 h-24 object-contain" />
-                      </Link>
+                      </a>
                     </motion.div>
                     <h4 className="text-2xl font-bold mb-4 text-heading transition-colors duration-300">{p.title}</h4>
                     <p className="mb-8 font-semibold leading-relaxed text-green-900 transition-colors duration-300">
                       {p.desc}
                     </p>
                     <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <Link 
-                        href={p.link} 
-                        className="inline-flex items-center text-primary font-bold transition-all duration-300 gap-2"
+                      <a 
+                        href={p.link}
+                        onClick={(e) => handleProductClick(e, p.link)}
+                        className="inline-flex items-center text-primary font-bold transition-all duration-300 gap-2 cursor-pointer"
                       >
                         <i className="fa fa-plus"></i>
                         <span>Read More</span>
-                      </Link>
+                      </a>
                     </motion.div>
                   </motion.div>
                 </div>
@@ -278,6 +308,7 @@ const ProductGrid = () => {
         </motion.div>
       </div>
     </section>
+    </>
   );
 };
 

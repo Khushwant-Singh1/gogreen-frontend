@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LoadingSpinner, { ProductGridSkeleton } from "@/components/LoadingSpinner";
 import axios from "axios";
 
 const SearchContent = () => {
@@ -50,11 +51,9 @@ const SearchContent = () => {
       )}
 
       {loading ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="text-center">
-            <i className="fa fa-spinner fa-spin text-4xl text-primary mb-4"></i>
-            <p className="text-gray-600">Searching...</p>
-          </div>
+        <div className="space-y-8">
+          <LoadingSpinner variant="leaf" size="lg" text="Searching products..." className="mx-auto" />
+          <ProductGridSkeleton count={6} />
         </div>
       ) : results.length > 0 ? (
         <>
@@ -121,7 +120,7 @@ const SearchPage = () => {
       <main className="flex-grow py-12 px-4 lg:px-10">
         <Suspense fallback={
           <div className="flex justify-center items-center h-64">
-            <div className="text-primary">Loading search...</div>
+            <LoadingSpinner variant="leaf" size="lg" text="Loading search..." />
           </div>
         }>
           <SearchContent />
