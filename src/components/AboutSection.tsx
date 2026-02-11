@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const AboutSection = () => {
@@ -54,6 +55,7 @@ const AboutSection = () => {
             <h4 className="text-xl font-bold text-green-900 italic mb-8">
               &quot;Smart Irrigation Starts here --- because every drop matter&quot;
             </h4>
+            <Link href="/#products">
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(28,158,28,0.3)" }}
               whileTap={{ scale: 0.98 }}
@@ -62,6 +64,7 @@ const AboutSection = () => {
             >
               Explore More
             </motion.button>
+            </Link>
           </motion.div>
           <motion.div
             initial={{ x: 50, opacity: 0 }}

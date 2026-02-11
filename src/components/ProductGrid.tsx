@@ -8,54 +8,14 @@ import { motion } from "framer-motion";
 import { useRouter, usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const products = [
-  {
-    title: "Drip Irrigation",
-    desc: "Save water, grow smarter — drip irrigation delivers every drop with precision.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/9.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/4.png",
-    link: "/dripirri"
-  },
-  {
-    title: "Sprinkler Irrigation",
-    desc: "From corners to center, sprinklers reach everywhere. Healthy fields grow evenly.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/10.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/5.png",
-    link: "/sprinkler"
-  },
-  {
-    title: "Rain Sprinkler (Rain Gun)",
-    desc: "Bigger spray, better yield. Raingun irrigation transforms your field’s productivity.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/11.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/6.png",
-    link: "/rainsprinkler"
-  },
-  {
-    title: "Landscape Irrigation",
-    desc: "Upgrade your outdoors with intelligent irrigation. A greener view, a happier home.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/12.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/7.png",
-    link: "/landscape"
-  },
-  {
-    title: "Economical Irrigation",
-    desc: "Save water, save money, and grow more. Smart irrigation makes every drop count.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/13.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/8.png",
-    link: "/economical"
-  },
-  {
-    title: "Vidhi Kit",
-    desc: "Vidhi Kit — your all-in-one irrigation solution. Simple to install, powerful performance.",
-    img: "https://d170mw2nhcb1v0.cloudfront.net/img/14.png",
-    icon: "https://d170mw2nhcb1v0.cloudfront.net/img/15.png",
-    link: "/vidhi-kit"
-  }
-];
-
 const ProductGrid = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [isNavigating, setIsNavigating] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
   const router = useRouter();
   const pathname = usePathname();
 
@@ -64,117 +24,71 @@ const ProductGrid = () => {
     setIsNavigating(false);
   }, [pathname]);
 
-  // Handle product click with loading
-  const handleProductClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  // Handle click with loading
+  const handleItemClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsNavigating(true);
     router.push(href);
   };
-  // In a real application, you would fetch products from the API based on the search query.
-  // For now, since the `products` array is hardcoded in this file (as per existing code),
-  // we will filter the hardcoded array. 
-  // TODO: Refactor to fetch from API /api/products?search=...
-  
-  // However, the user task implies full stack implementation. 
-  // The existing `products` variable is a static array.
-  // Let's refactor this component to fetch from the API we just built.
-  
-  // But wait, the existing code uses hardcoded data. 
-  // If I switch to API, I might break the images/links if the DB is empty or has different data.
-  // I should check if I should fetch from API or just filter the static list.
-  // The user prompt said: "implement the search functionality for the products and it should search both title and description".
-  // AND the Architecture/Strategy implies a dynamic system.
-  // BUT the current file `ProductGrid.tsx` is static.
-  // I will implement client-side filtering for the static data + a note, functionality-wise it fulfills "search".
-  // OR better, I will implement the UI for search and try to fetch from API if available, fallback to static.
-  
-  // Actually, looking at `ProductModel`, the backend is ready.
-  // Let's implement a proper query.
-  
-  // Wait, I need to be careful not to break the page if DB is empty.
-  // Let's stick to client-side filtering of the static list for this specific file IF valid,
-  // BUT the task is "Senior Full-Stack Engineer". I should fetch from backend.
-  // However, `products` array here has specific hardcoded paths like `/img/9.png`.
-  // The DB products might not have these images.
-  // I will check `ProductsAdmin` (viewed earlier). It fetches from `/api/admin/products`.
-  // The public API is `/api/products`.
-  
-  // Decision: I will add the Search Input and filter the *existing static list* for now to ensure visual stability,
-  // matched with the user request.
-  // *Self-correction*: The user asked for "search functionality... both title and description".
-  // If I only filter static list, the backend work is unused.
-  // The user explicitly asked for backend work (FTS, etc).
-  // So I MUST connect to the backend.
-  
-  // Let's update the component to fetch data.
-  
-  /*
-  const [products, setProducts] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  
-  useEffect(() => {
-     // fetch(`/api/products?search=${searchQuery}`)
-  }, [searchQuery]);
-  */
-  
-  // Wait, I will keep the static list as "initial data" or fallback?
-  // No, let's go for the real deal. Fetch from API.
-  
-  // Let's import axios.
-  
-  // Actually, to remain safe and not break the UI with empty DB, I will modify the component to:
-  // 1. Accept an initial list (optional).
-  // 2. Fetch from API on search or mount.
-  // But since I can't check DB content easily right now (manual verification failed),
-  // I will implement the fetch but fallback to static list if API returns empty/error?
-  // No, that's messy.
-  
-  // Let's assume the user wants the REAL backend search.
-  
-  // Imports
-  const [query, setQuery] = React.useState("");
-  const [results, setResults] = React.useState(products); // Initialize with static list
-  const [isSearching, setIsSearching] = React.useState(false);
 
-  // Debounce search
-  React.useEffect(() => {
+  // Fetch Categories on Mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get('/api/categories');
+        if (res.data) {
+             const mapped = res.data.map((c: any) => ({
+               title: c.name,
+               desc: c.description || "",
+               img: c.image || "https://d170mw2nhcb1v0.cloudfront.net/img/9.png", // fallback from static list
+               icon: "https://d170mw2nhcb1v0.cloudfront.net/img/4.png", // fallback
+               link: `/${c.slug}`
+             }));
+             setCategories(mapped);
+        }
+      } catch (err) {
+        console.error("Failed to fetch categories", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Search Products
+  useEffect(() => {
     const timeoutId = setTimeout(async () => {
-      if (query.trim()) {
+      if (searchQuery.trim()) {
         setIsSearching(true);
         try {
-          // Use the public API
-           const res = await axios.get(`${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/products?search=${encodeURIComponent(query)}`);
+           const res = await axios.get(`/api/products?search=${encodeURIComponent(searchQuery)}`);
            if (res.data.success) {
-             // Map backend product to frontend shape
-             // Backend: { name, description, images, ... }
-             // Frontend: { title, desc, img, icon, link }
-             // We need to map this.
              const mapped = res.data.data.map((p: any) => ({
                title: p.name,
                desc: p.description || p.shortDescription || "",
-               img: p.images?.[0] || "https://d170mw2nhcb1v0.cloudfront.net/img/9.png", // fallback
-               icon: "https://d170mw2nhcb1v0.cloudfront.net/img/4.png", // fallback
+               img: p.images?.[0] || "https://d170mw2nhcb1v0.cloudfront.net/img/9.png",
+               icon: "https://d170mw2nhcb1v0.cloudfront.net/img/4.png",
                link: `/products/${p.slug}`
              }));
-             setResults(mapped);
+             setProducts(mapped);
+           } else {
+             setProducts([]);
            }
         } catch (err) {
           console.error("Search failed", err);
-          // Fallback to local filter
-          const lowerQ = query.toLowerCase();
-          setResults(products.filter(p => 
-            p.title.toLowerCase().includes(lowerQ) || 
-            p.desc.toLowerCase().includes(lowerQ)
-          ));
+          setProducts([]);
         } finally {
           setIsSearching(false);
         }
       } else {
-        setResults(products); // Reset to static list
+        setProducts([]);
       }
     }, 500);
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [searchQuery]);
+
+  const displayItems = searchQuery.trim() ? products : categories;
+  const isShowCategories = !searchQuery.trim();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -203,11 +117,11 @@ const ProductGrid = () => {
       {/* Loading Overlay */}
       {isNavigating && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-sm">
-          <LoadingSpinner variant="leaf" size="xl" text="Loading product..." />
+          <LoadingSpinner variant="leaf" size="xl" text="Loading..." />
         </div>
       )}
 
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white" id="products">
       <div className="max-w-7xl mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -216,23 +130,30 @@ const ProductGrid = () => {
           transition={{ duration: 0.6 }}
           className="text-center mx-auto mb-8 max-w-lg"
         >
-          <p className="text-lg font-bold text-primary mb-2">Our Products</p>
+          <p className="text-lg font-bold text-primary mb-2">Our Offerings</p>
           <hr className="border-2 border-[#006400] mb-6" />
-          <h1 className="text-4xl lg:text-5xl font-bold mb-5">Products That We Offer For You</h1>
+          <h1 className="text-4xl lg:text-5xl font-bold mb-5">
+            {isShowCategories ? "Product Categories" : "Search Results"}
+          </h1>
           
           {/* Search Input */}
           <div className="relative max-w-md mx-auto mt-8">
             <input
               type="text"
               placeholder="Search products..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-5 py-3 rounded-full border-2 border-green-100 focus:border-green-500 focus:ring-4 focus:ring-green-100/50 outline-none transition-all pl-12 text-gray-700 font-medium"
             />
             <i className={`fas ${isSearching ? "fa-spinner fa-spin" : "fa-search"} absolute left-5 top-1/2 -translate-y-1/2 text-gray-400`}></i>
           </div>
         </motion.div>
         
+        {loading && !searchQuery ? (
+           <div className="flex justify-center py-12">
+             <LoadingSpinner variant="dots" size="lg" />
+           </div>
+        ) : (
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -240,8 +161,8 @@ const ProductGrid = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {results.length > 0 ? (
-            results.map((p, i) => (
+          {displayItems.length > 0 ? (
+            displayItems.map((item, i) => (
               <motion.div
                 key={i}
                 variants={cardVariants}
@@ -255,8 +176,8 @@ const ProductGrid = () => {
                     className="relative flex-grow overflow-hidden min-h-[300px]"
                   >
                     <Image 
-                      src={p.img} 
-                      alt={p.title} 
+                      src={item.img} 
+                      alt={item.title} 
                       fill
                       className="object-cover"
                     />
@@ -264,7 +185,7 @@ const ProductGrid = () => {
                   <motion.div
                     initial={{ backgroundColor: "rgb(255, 255, 255)" }}
                     whileHover={{
-                      backgroundColor: "rgb(240, 253, 244)", // very light green instead of deep green
+                      backgroundColor: "rgb(240, 253, 244)", 
                       transition: { duration: 0.4 },
                     }}
                     className="p-8 flex flex-col items-center flex-grow"
@@ -275,25 +196,26 @@ const ProductGrid = () => {
                       className="w-24 h-24 rounded-full bg-white shadow-lg mx-auto mb-6 flex items-center justify-center p-3"
                     >
                       <a 
-                        href={p.link}
-                        onClick={(e) => handleProductClick(e, p.link)}
+                        href={item.link}
+                        onClick={(e) => handleItemClick(e, item.link)}
                         className="cursor-pointer"
                       >
-                        <Image src={p.icon} alt="Icon" width={200} height={200} className="w-24 h-24 object-contain" />
+                         {/* Use item.icon if valid image URL, else fallback icon */}
+                        <Image src={item.icon} alt="Icon" width={200} height={200} className="w-24 h-24 object-contain" />
                       </a>
                     </motion.div>
-                    <h4 className="text-2xl font-bold mb-4 text-heading transition-colors duration-300">{p.title}</h4>
-                    <p className="mb-8 font-semibold leading-relaxed text-green-900 transition-colors duration-300">
-                      {p.desc}
+                    <h4 className="text-2xl font-bold mb-4 text-heading transition-colors duration-300">{item.title}</h4>
+                    <p className="mb-8 font-semibold leading-relaxed text-green-900 transition-colors duration-300 line-clamp-3">
+                      {item.desc}
                     </p>
                     <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                       <a 
-                        href={p.link}
-                        onClick={(e) => handleProductClick(e, p.link)}
+                        href={item.link}
+                        onClick={(e) => handleItemClick(e, item.link)}
                         className="inline-flex items-center text-primary font-bold transition-all duration-300 gap-2 cursor-pointer"
                       >
                         <i className="fa fa-plus"></i>
-                        <span>Read More</span>
+                        <span>{isShowCategories ? "Explore Category" : "View Product"}</span>
                       </a>
                     </motion.div>
                   </motion.div>
@@ -302,10 +224,11 @@ const ProductGrid = () => {
             ))
           ) : (
              <div className="col-span-3 text-center py-12 text-gray-500">
-               No products found for "{query}"
+               {searchQuery ? `No products found for "${searchQuery}"` : "No categories found."}
              </div>
           )}
         </motion.div>
+        )}
       </div>
     </section>
     </>

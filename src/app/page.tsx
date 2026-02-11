@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import YouTubeVideosSection from "@/components/YouTubeVideosSection";
 import LazyWorldMap from "@/components/LazyWorldMap";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 // Lazy Popup - SSR: false removed (it renders null initially anyway)
@@ -245,9 +246,11 @@ export default async function Home() {
                 Every <strong>drip irrigation system</strong>, <strong>sprinkler</strong>, and <strong>HDPE pipe</strong> undergoes rigorous quality checks and is manufactured to meet ISO and international export standards, 
                 ensuring long-lasting performance trusted by farmers, distributors, and importers across 50+ countries worldwide.
               </p>
+              <Link href="/manfacture">
               <button className="btn-primary-custom btn-ripple text-white py-4 px-10 rounded font-bold shadow-lg transition" aria-label="Explore more about Vidhi Enterprises irrigation products">
                 Explore More
               </button>
+              </Link>
             </div>
             
             <div className="lg:w-1/2 grid grid-cols-1 md:grid-cols-2 gap-8">
