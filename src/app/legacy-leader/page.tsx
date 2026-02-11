@@ -182,7 +182,7 @@ const LegacyLeaderPage = () => {
                   </div>
                   
                   <div className="lg:w-2/5 bg-gradient-to-b from-[#e8f5e9] to-white flex flex-col items-center justify-center p-8 lg:p-12 lg:border-l border-green-50">
-                    <div className="relative w-full aspect-[3/4] max-w-[280px] rounded-[140px] overflow-hidden border-4 border-white shadow-2xl mb-6">
+                    <div className="relative w-full aspect-square max-w-[280px] rounded-full overflow-hidden border-4 border-white shadow-2xl mb-6">
                       <Image
                         src={gen.img}
                         alt={gen.name}
