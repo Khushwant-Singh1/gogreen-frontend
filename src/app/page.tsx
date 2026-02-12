@@ -283,7 +283,7 @@ export default async function Home() {
       
       <div className="container mx-auto px-4 text-center mt-20 mb-8">
         <h2 className="text-5xl lg:text-6xl font-bold text-[#0f4c75] mb-4 font-heading">Our Global Presence</h2>
-        <p className="text-2xl text-green-900">Where You Can Find Us</p>
+        <p className="text-2xl text-green-900">Where you can find our products</p>
       </div>
 
       <LazyWorldMap />

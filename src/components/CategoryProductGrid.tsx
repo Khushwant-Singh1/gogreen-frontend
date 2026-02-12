@@ -79,9 +79,9 @@ const CategoryProductGrid: React.FC<CategoryProductGridProps> = ({ products }) =
                   ) : (
                     <h2 className="text-2xl font-bold text-green-900 mb-6 text-center">{product.title}</h2>
                   )}
-                  <ul className="space-y-3 w-full">
+                  <ul className="space-y-3 w-fit mx-auto text-left list-disc pl-4">
                     {product.links.map((link, linkIndex) => (
-                      <li key={linkIndex} className="text-center">
+                      <li key={linkIndex} className="">
                         <a 
                           href={link.url}
                           onClick={(e) => handleProductClick(e, link.url)}
