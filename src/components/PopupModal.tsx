@@ -13,6 +13,7 @@ interface Popup {
   isActive: boolean;
   startDate: string | null;
   endDate: string | null;
+  link?: string | null;
 }
 
 export default function PopupModal() {
@@ -123,7 +124,21 @@ export default function PopupModal() {
                </div>
              </>
            )}
-        </div>
+         </div>
+
+        {/* Know More Button */}
+        {popups[currentIndex].link && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+            <a 
+              href={popups[currentIndex].link!}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-primary hover:bg-secondary text-white font-bold py-2 px-6 rounded-full shadow-lg transition-transform transform hover:scale-105"
+            >
+              Know More
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

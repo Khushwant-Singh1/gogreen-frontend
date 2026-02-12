@@ -48,11 +48,11 @@ const AboutSection = () => {
               40+
             </motion.h1>
             <p className="text-xl sm:text-3xl lg:text-4xl font-black text-primary mb-6 relative z-10">Years of making Every Drop Count</p>
-            <h5 className="text-2xl font-bold text-green-900 mb-6">&apos;We Make Every Drop Work Smarter&apos;</h5>
-            <p className="text-lg text-primary font-semibold mb-6">
+            <h5 className="text-5xl font-bold text-[#0f4c75] mb-6">&apos;We Make Every Drop Work Smarter&apos;</h5>
+            <p className="text-2xl text-primary font-semibold mb-6">
               &quot;Helping you water better, grow stronger &amp; make the most of every single drop&quot;
             </p>
-            <h4 className="text-xl font-bold text-green-900 italic mb-8">
+            <h4 className="text-3xl font-bold text-[#0f4c75] italic mb-8">
               &quot;Smart Irrigation Starts here --- because every drop matter&quot;
             </h4>
             <Link href="/#products">
@@ -80,7 +80,7 @@ const AboutSection = () => {
             >
               <i className="fa fa-award text-4xl text-primary mb-4"></i>
               <h4 className="text-xl font-bold text-primary mb-2">Trusted Quality</h4>
-              <p className="text-green-900 font-bold">We are known for durability, innovation & customer focus</p>
+              <p className="text-gray-700 font-semibold">We are known for durability, innovation & customer focus</p>
             </motion.div>
             <motion.div
               whileHover={{ x: 10 }}
@@ -89,7 +89,7 @@ const AboutSection = () => {
             >
               <i className="fa fa-users text-4xl text-primary mb-4"></i>
               <h4 className="text-xl font-bold text-primary mb-2">Dedicated Team</h4>
-              <p className="text-green-900 font-bold">
+              <p className="text-gray-700 font-semibold">
                 From choosing the right component to after sales support, Our experts are always here to help you at every step of the way
               </p>
             </motion.div>

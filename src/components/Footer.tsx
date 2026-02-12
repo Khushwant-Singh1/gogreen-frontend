@@ -115,11 +115,13 @@ const Footer = () => {
                 whileHover={{ scale: 1.2, backgroundColor: "rgb(28, 158, 28)" }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ duration: 0.2 }}
-                href="#"
+                href="https://x.com/VidhiEnterprise"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full"
-                aria-label="Twitter"
+                aria-label="X"
               >
-                <i className="fab fa-twitter"></i>
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.2, backgroundColor: "rgb(28, 158, 28)" }}

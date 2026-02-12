@@ -258,7 +258,7 @@ export default async function Home() {
                 <div className="w-20 h-20 bg-whitesmoke rounded-full flex items-center justify-center mb-6">
                   <i className="fa fa-check text-primary text-3xl"></i>
                 </div>
-                <h4 className="text-xl font-bold text-green-900">100% Satisfaction</h4>
+                <h4 className="text-xl font-bold text-green-900">100% Satisfactions</h4>
               </div>
               
               <div className="bg-white p-10 rounded-2xl shadow-xl text-center flex flex-col items-center translate-y-0 md:translate-y-8">
@@ -282,8 +282,8 @@ export default async function Home() {
       <ProductGrid />
       
       <div className="container mx-auto px-4 text-center mt-20 mb-8">
-        <h2 className="text-4xl lg:text-5xl font-bold text-[#0f4c75] mb-4 font-heading">Our Global Presence</h2>
-        <p className="text-xl text-gray-600">Where You Can Find Us</p>
+        <h2 className="text-5xl lg:text-6xl font-bold text-[#0f4c75] mb-4 font-heading">Our Global Presence</h2>
+        <p className="text-2xl text-green-900">Where You Can Find Us</p>
       </div>
 
       <LazyWorldMap />

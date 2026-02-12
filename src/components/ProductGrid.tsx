@@ -130,9 +130,9 @@ const ProductGrid = () => {
           transition={{ duration: 0.6 }}
           className="text-center mx-auto mb-8 max-w-lg"
         >
-          <p className="text-lg font-bold text-primary mb-2">Our Offerings</p>
+          <p className="text-5xl font-bold text-primary mb-2">Our Offerings</p>
           <hr className="border-2 border-[#006400] mb-6" />
-          <h1 className="text-4xl lg:text-5xl font-bold mb-5">
+          <h1 className="text-4xl lg:text-5xl font-bold mb-5 text-blue-900">
             {isShowCategories ? "Product Categories" : "Search Results"}
           </h1>
           
@@ -204,7 +204,7 @@ const ProductGrid = () => {
                         <Image src={item.icon} alt="Icon" width={200} height={200} className="w-24 h-24 object-contain" />
                       </a>
                     </motion.div>
-                    <h4 className="text-2xl font-bold mb-4 text-heading transition-colors duration-300">{item.title}</h4>
+                    <h4 className="text-2xl font-bold mb-4 text-heading transition-colors duration-300 text-blue-900">{item.title}</h4>
                     <p className="mb-8 font-semibold leading-relaxed text-green-900 transition-colors duration-300 line-clamp-3">
                       {item.desc}
                     </p>

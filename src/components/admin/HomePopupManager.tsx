@@ -12,6 +12,7 @@ interface Popup {
   isActive: boolean;
   startDate: string | null;
   endDate: string | null;
+  link?: string | null;
 }
 
 export default function HomePopupManager() {
@@ -22,6 +23,7 @@ export default function HomePopupManager() {
   const [isActive, setIsActive] = useState(true);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [link, setLink] = useState("");
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const fetchPopups = async () => {
@@ -77,6 +79,7 @@ export default function HomePopupManager() {
       await axiosInstance.post("/home-popup/admin", {
         imageUrl,
         isActive,
+        link,
         startDate: startDate ? new Date(startDate).toISOString() : null,
         endDate: endDate ? new Date(endDate).toISOString() : null,
       });
@@ -87,6 +90,7 @@ export default function HomePopupManager() {
       setIsActive(true);
       setStartDate("");
       setEndDate("");
+      setLink("");
       fetchPopups();
       alert("Popup created successfully!");
     } catch (error: any) {
@@ -142,6 +146,17 @@ export default function HomePopupManager() {
             </div>
 
             <div className="flex-1 space-y-4">
+              <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Link URL (Optional)</label>
+                  <input 
+                      type="url" 
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
+                      placeholder="https://example.com"
+                      className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm p-2 border"
+                  />
+              </div>
+
               <div className="flex gap-4">
                 <div className="flex-1">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Start Date (Optional)</label>

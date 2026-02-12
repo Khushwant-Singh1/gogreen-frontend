@@ -110,7 +110,6 @@ async function getSubcategoriesWithProducts(categoryId: string, categorySlug: st
       return {
         title: sub.name,
         image: sub.image || 'https://d170mw2nhcb1v0.cloudfront.net/img/default-product.png',
-        subcategoryUrl: `/${categorySlug}/${sub.slug}`,
         links: subProducts.map((prod: Product) => ({
           name: prod.name,
           url: `/products/${prod.slug}`,

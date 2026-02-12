@@ -192,7 +192,6 @@ export default async function ProductPage({
   if (subcategory) {
     breadcrumbs.push({
       label: subcategory.name,
-      href: category ? `/${category.slug}/${subcategory.slug}` : "#",
     });
   }
 

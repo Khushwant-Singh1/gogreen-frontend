@@ -46,11 +46,12 @@ const HIGHLIGHTED_COUNTRIES = new Set([
   'Myanmar', 'Thailand', 'Vietnam', 'Cambodia', 'Malaysia', 'Philippines', 'Indonesia', 'Timor-Leste',
   
   // Oceania
-  'Papua New Guinea', 'New Zealand', 'Netherlands',
+  'Papua New Guinea', 'New Zealand', 'Netherlands', 'Australia',
 ]);
 
 // Mapping of country names to their export page URL slugs
 const COUNTRY_URL_MAPPING: Record<string, string> = {
+  'Australia': 'irrigation-components-australia',
   'Bahrain': 'irrigation-components-bahrain',
   'Bangladesh': 'irrigation-components-bangladesh',
   'Bhutan': 'irrigation-components-bhutan',
