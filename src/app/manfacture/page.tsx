@@ -4,6 +4,7 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const ManufacturingPage = () => {
   return (
@@ -13,7 +14,7 @@ const ManufacturingPage = () => {
       {/* Hero Section */}
       <section className="relative h-[45vh] min-h-[450px] flex items-center justify-center text-center text-white overflow-hidden">
         <Image
-          src="https://d170mw2nhcb1v0.cloudfront.net/img/main.png"
+          src="https://d170mw2nhcb1v0.cloudfront.net/img/cimain.png"
           alt="Manufacturing Background"
           fill
           className="object-cover"
@@ -25,6 +26,13 @@ const ManufacturingPage = () => {
           <h1 className="text-5xl lg:text-7xl font-bold mb-6 font-heading text-green-900 drop-shadow-lg">
             Manufacturing & Infrastructure
           </h1>
+          <nav className="flex justify-center mb-6 relative z-30">
+            <ol className="flex items-center space-x-2 bg-white/20 px-6 backdrop-blur-sm py-2 rounded-full font-bold">
+              <li><Link href="/" className="hover:text-primary transition text-green-900">Home</Link></li>
+              <li><i className="fa fa-chevron-right mx-2 text-[10px] text-green-900"></i></li>
+              <li className="text-green-700">Manufacturing</li>
+            </ol>
+          </nav>
           <p className="text-xl lg:text-3xl max-w-3xl mx-auto font-light tracking-wide text-blue-900">
             Precision Engineering • Cutting-Edge Technology • Global Quality Standards
           </p>

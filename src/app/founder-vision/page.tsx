@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -66,6 +67,13 @@ const FounderVisionPage = () => {
               <h1 className="text-5xl lg:text-7xl font-bold mb-4 font-heading animate-fadeInUp">
                 Founder's Vision
               </h1>
+              <nav className="flex justify-center lg:justify-start mb-6 animate-fadeInUp delay-100">
+                <ol className="flex items-center space-x-2 bg-white/20 px-6 backdrop-blur-sm py-2 rounded-full font-bold">
+                  <li><Link href="/" className="hover:text-green-200 transition text-white">Home</Link></li>
+                  <li><i className="fa fa-chevron-right mx-2 text-[10px] text-white"></i></li>
+                  <li className="text-green-100">Founder&apos;s Vision</li>
+                </ol>
+              </nav>
               <p className="text-xl lg:text-2xl font-normal opacity-90 mb-2 animate-fadeInUp delay-100" itemProp="name">
                 Late Shri Dhirendar Kumar Jain (Pipewale Bauji)
               </p>

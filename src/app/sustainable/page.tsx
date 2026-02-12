@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 const SustainabilityPage = () => {
   const pillars = [
@@ -86,6 +87,13 @@ const SustainabilityPage = () => {
         <div className="absolute inset-0 z-10"></div>
         <div className="container mx-auto px-4 relative z-20 animate-fadeInUp">
           <h1 className="text-5xl lg:text-7xl font-bold mb-6 font-heading text-green-900 drop-shadow-lg">Sustainability Commitment</h1>
+          <nav className="flex justify-center mb-6">
+            <ol className="flex items-center space-x-2 bg-white/20 px-6 backdrop-blur-sm py-2 rounded-full font-bold">
+              <li><Link href="/" className="hover:text-primary transition text-green-900">Home</Link></li>
+              <li><i className="fa fa-chevron-right mx-2 text-[10px] text-green-900"></i></li>
+              <li className="text-green-700">Sustainability</li>
+            </ol>
+          </nav>
           <p className="text-xl lg:text-2xl font-light opacity-95 max-w-3xl mx-auto text-blue-900">
             Efficient Irrigation | Responsible Manufacturing | A Greener Future
           </p>
