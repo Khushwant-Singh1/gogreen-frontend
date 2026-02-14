@@ -341,10 +341,7 @@ export default function ProductSpecificationsPage() {
                         
                         setUploadingImage(true);
                         try {
-                          const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-                          const res = await axiosInstance.post('/upload', uploadData, {
-                            baseURL,
-                          });
+                          const res = await axiosInstance.post('/admin/upload', uploadData);
                           setImageUrl(res.data.url);
                         } catch (error) {
                           console.error('Image upload failed:', error);

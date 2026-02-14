@@ -80,8 +80,7 @@ export default function CategoriesAdmin() {
     setUploadingImage(true);
     setUploadingImage(true);
     try {
-      const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-      const res = await axiosInstance.post('/upload', uploadData, { baseURL });
+      const res = await axiosInstance.post('/admin/upload', uploadData);
       setFormData(prev => ({ ...prev, image: res.data.url }));
       alert('Image uploaded successfully!');
     } catch (error) {

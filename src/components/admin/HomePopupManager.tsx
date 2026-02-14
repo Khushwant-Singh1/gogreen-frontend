@@ -69,7 +69,7 @@ export default function HomePopupManager() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const uploadRes = await axiosInstance.post("/upload", formData);
+      const uploadRes = await axiosInstance.post("/admin/upload", formData);
 
       const imageUrl = uploadRes.data.url;
 

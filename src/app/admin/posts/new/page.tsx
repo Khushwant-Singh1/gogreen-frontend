@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
+
 import axiosInstance from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import RichTextEditor from '@/components/RichTextEditor';
@@ -38,9 +38,7 @@ export default function CreatePostPage() {
     setUploadingImage(true);
     setUploadingImage(true);
     try {
-      const res = await axios.post('/api/upload', uploadData, {
-        withCredentials: true
-      });
+      const res = await axiosInstance.post('/admin/upload', uploadData);
       setCoverImage(res.data.url);
       alert('Image uploaded successfully!');
     } catch (error) {

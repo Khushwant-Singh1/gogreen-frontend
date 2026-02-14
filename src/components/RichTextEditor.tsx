@@ -2,7 +2,7 @@
 'use client';
 
 import { useEditor, EditorContent } from '@tiptap/react';
-import axios from 'axios'; // Import axios directly for uploads to avoid instance default headers
+
 import axiosInstance from '@/lib/axios';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -41,11 +41,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
         formData.append('file', file);
 
         try {
-          // Use direct axios call to avoid instance default headers (like Content-Type: application/json)
-          // which can break multipart/form-data uploads.
-          const res = await axios.post('/api/upload', formData, {
-            withCredentials: true
-          });
+          const res = await axiosInstance.post('/admin/upload', formData);
           
           if (res.data.url) {
             // Note: We still need the full URL for the image src if it's relative, 
