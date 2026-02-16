@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from "axios";
+import axiosInstance from "@/lib/axios";
 
 // Zod schema for validation
 const settingsSchema = z.object({
@@ -27,7 +27,7 @@ export default function GlobalSettingsPage() {
   const { data: settings, isLoading } = useQuery({
     queryKey: ["global-settings"],
     queryFn: async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/settings`);
+      const response = await axiosInstance.get('/settings');
       return response.data.data; // API returns object { success: true, data: { key: value } }
     },
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
@@ -52,13 +52,16 @@ export default function GlobalSettingsPage() {
         value: value || "", // Send empty string if undefined/null
       }));
 
-      return axios.post(
-        `${process.env.NEXT_PUBLIC_NEXT_PUBLIC_BASE_URL || "http://localhost:3001"}/api/settings`,
-        { settings: settingsArray },
-        { withCredentials: true } // Important for admin auth
-      );
+      return axiosInstance.post('/settings', { settings: settingsArray });
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Revalidate frontend cache
+      try {
+        await axiosInstance.post(`/revalidate?tag=global-settings&secret=${process.env.NEXT_PUBLIC_REVALIDATION_SECRET || 'gogreen_revalidation_secret'}`);
+      } catch (err) {
+        console.error("Revalidation failed:", err);
+      }
+
       setMessage({ type: "success", text: "Settings updated successfully! The site has been revalidated." });
       queryClient.invalidateQueries({ queryKey: ["global-settings"] });
       

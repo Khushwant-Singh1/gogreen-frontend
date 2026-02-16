@@ -121,7 +121,7 @@ async function getGlobalSettings() {
 
     try {
       const response = await fetch(`${backendUrl}/settings`, {
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        next: { revalidate: 3600, tags: ['global-settings'] }, // Cache for 1 hour, tag for on-demand revalidation
         headers: {
           'Content-Type': 'application/json',
         },
