@@ -189,6 +189,21 @@ export default async function RootLayout({
             })(window,document,'script','dataLayer','GTM-5T7R9GG3');
           `}
         </Script>
+        
+        {/* Google Analytics (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-2J3YY97NDJ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2J3YY97NDJ');
+          `}
+        </Script>
         <TanStackProvider>{children}</TanStackProvider>
         <WhatsAppFloatingButton phoneNumber={whatsappNumber} />
       </body>
