@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    // unoptimized: true, // Disable image optimization for S3 images
+    unoptimized: true, 
     remotePatterns: [
       {
         protocol: 'https',
