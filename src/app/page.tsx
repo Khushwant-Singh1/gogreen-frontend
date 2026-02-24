@@ -95,14 +95,24 @@ async function getCategories() {
         return [];
     }
 
-    const response = await fetch(`${backendUrl}/categories`, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    
-    if (!response.ok) return [];
-    
-    const data = await response.json();
-    return Array.isArray(data) ? data : []; 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+    try {
+      const response = await fetch(`${backendUrl}/categories`, {
+        next: { revalidate: 3600 }, // Cache for 1 hour
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) return [];
+      
+      const data = await response.json();
+      return Array.isArray(data) ? data : []; 
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      throw fetchError;
+    }
   } catch (error) {
     console.error('Failed to fetch categories:', error);
     return [];
