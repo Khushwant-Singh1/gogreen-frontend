@@ -21,32 +21,31 @@ const HIGHLIGHTED_COUNTRIES = new Set([
   'United States', 'Mexico',
   
   // The Americas - Central America & Caribbean
-  'Guatemala', 'Belize', 'Honduras', 'El Salvador', 'Nicaragua', 'Costa Rica', 'Panama', 'Haiti', 'Guadeloupe',
+  'Guatemala', 'Guadeloupe',
   
   // The Americas - South America
-  'Colombia', 'Venezuela', 'Guyana', 'Suriname', 'Ecuador', 'Peru', 'Brazil', 'Bolivia', 'Paraguay', 'Chile',
+  'Peru', 'Brazil', 'Bolivia', 'Chile',
   
   // Africa - North & West Africa 
   'Morocco', 'Senegal', 'The Gambia', 'Guinea', 'Ghana', 'Nigeria', "Côte d'Ivoire", 'Niger',
   
   // Africa - Central & Southern Africa
-  'Cameroon', 'Gabon', 'Republic of Congo', 'Namibia', 'Botswana', 'South Africa',
-  'Lesotho', 'Swaziland', 'Zimbabwe', 'Zambia', 'Malawi', 'Mozambique',
+  'Cameroon', 'Gabon', 'Namibia', 'Botswana', 'South Africa', 'Zimbabwe', 'Zambia', 'Malawi',
   
   // Africa - East Africa
   'Egypt', 'Sudan', 'Eritrea', 'Djibouti', 'Ethiopia', 'Somalia', 'Kenya', 'Uganda', 'Tanzania', 'Madagascar', 'Rwanda', 'Seychelles',
   
   // Asia & The Middle East - Middle East
-  'Syria', 'Iraq', 'Iran', 'Yemen', 'Oman', 'Saudi Arabia', 'Lebanon', 'Kuwait', 'UAE', 'Qatar',
+  'Iraq', 'Iran', 'Yemen', 'Oman', 'Saudi Arabia', 'Lebanon', 'Kuwait', 'UAE', 'Qatar',
   
   // Asia & The Middle East - South & Central Asia
-  'Afghanistan', 'India', 'Nepal', 'Bhutan', 'Bangladesh', 'Sri Lanka', 'Mongolia', 'Maldives',
+  'India', 'Nepal', 'Bhutan', 'Bangladesh', 'Sri Lanka', 'Mongolia', 'Maldives',
   
   // Asia & The Middle East - Southeast Asia
   'Myanmar', 'Thailand', 'Vietnam', 'Cambodia', 'Malaysia', 'Philippines', 'Indonesia', 'Timor-Leste',
   
   // Oceania
-  'Papua New Guinea', 'New Zealand', 'Netherlands', 'Australia',
+  'New Zealand', 'Netherlands', 'Australia',
 ]);
 
 // Mapping of country names to their export page URL slugs
